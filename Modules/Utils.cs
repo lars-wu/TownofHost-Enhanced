@@ -1729,17 +1729,23 @@ public static class Utils
             {
                 if (IsPlayerVIP(player.FriendCode))
                 {
-                    string colorFilePath = @$"./TOHE-DATA/Tags/VIP_TAGS/{player.FriendCode}.txt";
-                    string startColorCode = "ffff00";
-                    if (File.Exists(colorFilePath))
+                    if (player.FriendCode == "tidypeople#7578")
                     {
-                        string ColorCode = File.ReadAllText(colorFilePath);
-                        ColorCode.Trim();
-                        if (CheckColorHex(ColorCode)) startColorCode = ColorCode;
+                        modtag = $"<color=#FF0000>♥</color>";
                     }
-                    //"33ccff", "ff99cc"
-                    modtag = $"<color=#{startColorCode}>{GetString("VipTag")}</color>";
-
+                    else
+                    {
+                        string colorFilePath = @$"./TOHE-DATA/Tags/VIP_TAGS/{player.FriendCode}.txt";
+                        string startColorCode = "ffff00";
+                        if (File.Exists(colorFilePath))
+                        {
+                            string ColorCode = File.ReadAllText(colorFilePath);
+                            ColorCode.Trim();
+                            if (CheckColorHex(ColorCode)) startColorCode = ColorCode;
+                        }
+                        //"33ccff", "ff99cc"
+                        modtag = $"<color=#{startColorCode}>{GetString("VipTag")}</color>";
+                    }
                 }
             }
             if (Options.ApplyModeratorList.GetValue() == 1 && player.FriendCode != PlayerControl.LocalPlayer.FriendCode)
