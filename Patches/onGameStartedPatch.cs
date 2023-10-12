@@ -320,6 +320,7 @@ internal class ChangeRoleSettings
             Blackmailer.Init();
             Spy.Init();
             Enigma.Init();
+            Eris.Init();
 
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
@@ -918,6 +919,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Enigma:
                         Enigma.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Eris:
+                        Eris.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())
