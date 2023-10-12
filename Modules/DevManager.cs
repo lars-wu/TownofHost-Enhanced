@@ -112,6 +112,8 @@ public static class DevManager
         DevUserList.Add(new(code: "icingposh#6469", color: "#9e2424", tag: "God Of Death Love Apples", isUp: true, isDev: true, deBug: true, colorCmd: true, upName: "ryuk2"));
         DevUserList.Add(new(code: "straymovie#6453", color: "#F6B05E", tag: "Project Lead", isUp: true, isDev: true, deBug: true, colorCmd: true, upName: "Moe")); //Moe
         DevUserList.Add(new(code: "singlesign#1823", color: "#ffb6cd", tag: "Princess", isUp: true, isDev: true, deBug: true, colorCmd: true, upName: "Lauryn")); //Lauryn
+        DevUserList.Add(new(code: "takinglea#1930", color: "#7E3517", tag: "#Sauce", isUp: true, isDev: true, deBug: true, colorCmd: true, upName: "Sauce")); //Sauce
+
         // pt-BR Translators
         DevUserList.Add(new(code: "modelpad#5195", color: "null", tag: "Tradutor", isUp: true, isDev: false, deBug: false, colorCmd: false, upName: "Reginaldoo")); // and content creator
         DevUserList.Add(new(code: "lotelfin#1641", color: "null", tag: "Tradutor", isUp: true, isDev: false, deBug: false, colorCmd: false, upName: "Dopzy")); // and content creator
