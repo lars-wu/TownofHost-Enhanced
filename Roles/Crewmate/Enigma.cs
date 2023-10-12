@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MS.Internal.Xml.XPath;
-using TOHE.Roles.Neutral;
-using UnityEngine.UIElements;
-using static Logger;
 using static TOHE.Options;
 using static TOHE.Translator;
 
@@ -86,7 +82,7 @@ namespace TOHE.Roles.Crewmate
 
         public static void OnReportDeadBody(PlayerControl player, GameData.PlayerInfo targetInfo)
         {
-            if (targetInfo == null || !IsEnable) return;
+            if (targetInfo == null) return;
 
             var target = Utils.GetPlayerById(targetInfo.PlayerId);
             if (target == null) return;
@@ -133,16 +129,13 @@ namespace TOHE.Roles.Crewmate
                 title = clue.Title;
                 msg = clue.GetMessage(killer, showStageClue);
 
-                Logger.Info($"Enigma ShownClues[{playerId}].Add({clue.Title})", "Enigma");
                 ShownClues[playerId].Add(clue);
 
-                Logger.Info($"Enigma MsgToSend.Add({playerId}, {msg});", "Enigma");
                 if (MsgToSend.ContainsKey(playerId))
                     MsgToSend[playerId] = msg;
                 else
                     MsgToSend.Add(playerId, msg);
 
-                Logger.Info($"Enigma MsgToSendTitle.Add({playerId}, {title});", "Enigma");
                 if (MsgToSendTitle.ContainsKey(playerId))
                     MsgToSendTitle[playerId] = title;
                 else
