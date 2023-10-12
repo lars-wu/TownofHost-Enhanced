@@ -19,6 +19,7 @@ namespace TOHE.Roles.Impostor
         private static List<byte> ReducedVisionPlayers = new();
 
         private static OptionItem ShapeshiftCooldown;
+        private static OptionItem ShapeshiftDuration;
         public static OptionItem MaxTrapCount;
         public static OptionItem TrapMaxPlayerCount;
         public static OptionItem TrapDuration;
@@ -48,11 +49,13 @@ namespace TOHE.Roles.Impostor
                 .SetValueFormat(OptionFormat.Multiplier);
             TrapCauseVisionTime = FloatOptionItem.Create(Id + 17, "PitfallTrapCauseVisionTime", new(0f, 45f, 1f), 15f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Pitfall])
                 .SetValueFormat(OptionFormat.Seconds);
+            ShapeshiftDuration = FloatOptionItem.Create(Id + 18, "ShapeshiftDuration", new(1f, 999f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Pitfall])
+                    .SetValueFormat(OptionFormat.Seconds);
         }
         public static void ApplyGameOptions()
         {
             AURoleOptions.ShapeshifterCooldown = ShapeshiftCooldown.GetFloat();
-            AURoleOptions.ShapeshifterDuration = 1f;
+            AURoleOptions.ShapeshifterDuration = ShapeshiftDuration.GetFloat();
         }
 
         public static void Init()
