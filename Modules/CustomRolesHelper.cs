@@ -214,7 +214,7 @@ static class CustomRolesHelper
             CustomRoles.Medic => RoleTypes.Impostor,
             CustomRoles.Gamer => RoleTypes.Impostor,
             CustomRoles.HexMaster => RoleTypes.Impostor,
-            CustomRoles.Occultist => RoleTypes.Impostor,
+            //CustomRoles.Occultist => RoleTypes.Impostor,
             CustomRoles.Wraith => RoleTypes.Impostor,
             CustomRoles.Glitch => RoleTypes.Impostor,
             CustomRoles.Juggernaut => RoleTypes.Impostor,
@@ -277,7 +277,7 @@ static class CustomRolesHelper
             CustomRoles.Brakar or
             CustomRoles.Oblivious or
             CustomRoles.Bewilder or
-            CustomRoles.Sunglasses or
+            //CustomRoles.Sunglasses or
             CustomRoles.Knighted or
             CustomRoles.Workhorse or
             CustomRoles.Fool or
@@ -433,7 +433,7 @@ static class CustomRolesHelper
             CustomRoles.Glitch or
             CustomRoles.Sidekick or
             CustomRoles.Huntsman or
-            CustomRoles.Occultist or
+            //CustomRoles.Occultist or
             CustomRoles.Infectious or
             CustomRoles.Medusa or
             CustomRoles.Pelican or
@@ -553,7 +553,7 @@ static class CustomRolesHelper
             CustomRoles.Bandit or
             CustomRoles.Sidekick or
             CustomRoles.HexMaster or
-            CustomRoles.Occultist or
+            //CustomRoles.Occultist or
             CustomRoles.Necromancer or
             CustomRoles.Refugee or
             CustomRoles.Pyromaniac or
@@ -690,7 +690,7 @@ static class CustomRolesHelper
             CustomRoles.Huntsman or
             CustomRoles.Medusa or
             CustomRoles.HexMaster or
-            CustomRoles.Occultist or
+            //CustomRoles.Occultist or
             CustomRoles.Glitch or
             CustomRoles.Imitator or
             CustomRoles.Shaman or
@@ -1118,7 +1118,7 @@ static class CustomRolesHelper
 
             case CustomRoles.Torch:
                 if (pc.Is(CustomRoles.Bewilder)
-                    || pc.Is(CustomRoles.Sunglasses)
+                    //|| pc.Is(CustomRoles.Sunglasses)
                     || pc.Is(CustomRoles.Lighter)
                     || pc.Is(CustomRoles.GuardianAngelTOHE)) 
                     return false;
@@ -1208,7 +1208,7 @@ static class CustomRolesHelper
 
             case CustomRoles.Bewilder:
                 if (pc.Is(CustomRoles.Torch)
-                    || pc.Is(CustomRoles.Sunglasses)
+                    //|| pc.Is(CustomRoles.Sunglasses)
                     || pc.Is(CustomRoles.Lighter)
                     || pc.Is(CustomRoles.GuardianAngelTOHE))
                     return false;
@@ -1313,15 +1313,15 @@ static class CustomRolesHelper
                     return false;
                 break;
 
-            case CustomRoles.Sunglasses:
-                if (pc.Is(CustomRoles.Torch)
-                    || pc.Is(CustomRoles.Bewilder)
-                    || pc.Is(CustomRoles.Lighter)
-                    || pc.Is(CustomRoles.GuardianAngelTOHE))
-                    return false;
-                if ((pc.GetCustomRole().IsCrewmate() && !Options.CrewCanBeSunglasses.GetBool()) || (pc.GetCustomRole().IsNeutral() && !Options.NeutralCanBeSunglasses.GetBool()) || (pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeSunglasses.GetBool()))
-                    return false;
-                break;
+            //case CustomRoles.Sunglasses:
+            //    if (pc.Is(CustomRoles.Torch)
+            //        || pc.Is(CustomRoles.Bewilder)
+            //        || pc.Is(CustomRoles.Lighter)
+            //        || pc.Is(CustomRoles.GuardianAngelTOHE))
+            //        return false;
+            //    if ((pc.GetCustomRole().IsCrewmate() && !Options.CrewCanBeSunglasses.GetBool()) || (pc.GetCustomRole().IsNeutral() && !Options.NeutralCanBeSunglasses.GetBool()) || (pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeSunglasses.GetBool()))
+            //        return false;
+            //    break;
 
             case CustomRoles.TicketsStealer:
                 if (pc.Is(CustomRoles.Vindicator)
@@ -1631,7 +1631,7 @@ static class CustomRolesHelper
            CustomRoles.BloodKnight => CountTypes.BloodKnight,
            CustomRoles.Succubus => CountTypes.Succubus,
            CustomRoles.HexMaster => CountTypes.HexMaster,
-           CustomRoles.Occultist => CountTypes.Occultist,
+           //CustomRoles.Occultist => CountTypes.Occultist,
            CustomRoles.Necromancer => CountTypes.Necromancer,
            CustomRoles.NWitch => CountTypes.NWitch,
            CustomRoles.Shroud => CountTypes.Shroud,
@@ -1710,7 +1710,7 @@ public enum CountTypes
     Shroud,
     Werewolf,
     Agitater,
-    Occultist,
+    //Occultist,
     Shade,
     RuthlessRomantic,
     Necromancer
