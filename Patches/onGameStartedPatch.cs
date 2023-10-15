@@ -322,6 +322,7 @@ internal class ChangeRoleSettings
             Spy.Init();
             Enigma.Init();
             Instigator.Init();
+            Sick.Init();
 
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();

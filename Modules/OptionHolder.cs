@@ -2125,8 +2125,7 @@ public static class Options
             .SetParent(CustomRoleSpawnChances[CustomRoles.DoubleShot]);
         NeutralCanBeDoubleShot = BooleanOptionItem.Create(13912, "NeutralCanBeDoubleShot", true, TabGroup.Addons, false)
             .SetParent(CustomRoleSpawnChances[CustomRoles.DoubleShot]);
-
-
+        
         SetupAdtRoleOptions(14100, CustomRoles.Lazy, canSetNum: true);
         TasklessCrewCanBeLazy = BooleanOptionItem.Create(14110, "TasklessCrewCanBeLazy", false, TabGroup.Addons, false)
             .SetParent(CustomRoleSpawnChances[CustomRoles.Lazy]);
@@ -2384,6 +2383,8 @@ public static class Options
             .SetParent(CustomRoleSpawnChances[CustomRoles.Stubborn]);
         NeutralCanBeStubborn = BooleanOptionItem.Create(24699, "NeutralCanBeStubborn", true, TabGroup.Addons, false)
             .SetParent(CustomRoleSpawnChances[CustomRoles.Stubborn]);
+
+        Sick.SetupCustomOption();
 
         TextOptionItem.Create(100016, "RoleType.Impostor", TabGroup.Addons) // IMPOSTOR
             .SetGameMode(CustomGameMode.Standard)
