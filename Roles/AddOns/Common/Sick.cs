@@ -31,12 +31,12 @@ namespace TOHE.Roles.AddOns.Common
         public static void SetupCustomOption()
         {
             SetupAdtRoleOptions(Id, CustomRoles.Sick, canSetNum: true);
-            CanBeOnImp = BooleanOptionItem.Create(Id + 11, "ImpCanBeOiiai", true, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sick]);
-            CanBeOnCrew = BooleanOptionItem.Create(Id + 12, "CrewCanBeOiiai", true, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sick]);
-            CanBeOnNeutral = BooleanOptionItem.Create(Id + 13, "NeutralCanBeOiiai", true, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sick]);
-            TransmitTime = FloatOptionItem.Create(Id + 14, "FarseerRevealCooldown", new(0f, 30f, 1f), 3f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sick])
+            CanBeOnImp = BooleanOptionItem.Create(Id + 11, "ImpCanBeSick", true, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sick]);
+            CanBeOnCrew = BooleanOptionItem.Create(Id + 12, "CrewCanBeSick", true, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sick]);
+            CanBeOnNeutral = BooleanOptionItem.Create(Id + 13, "NeutralCanBeSick", true, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sick]);
+            TransmitTime = FloatOptionItem.Create(Id + 14, "SickTransmitTime", new(0f, 30f, 1f), 3f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sick])
                 .SetValueFormat(OptionFormat.Seconds);
-            CauseVision = FloatOptionItem.Create(Id + 15, "FarseerRevealTime", new(0f, 5f, 0.05f), 0.65f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sick])
+            CauseVision = FloatOptionItem.Create(Id + 15, "SickCauseVision", new(0f, 5f, 0.05f), 0.65f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sick])
                 .SetValueFormat(OptionFormat.Multiplier);
         }
         public static void Init()

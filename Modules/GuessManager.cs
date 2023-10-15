@@ -380,6 +380,11 @@ public static class GuessManager
                     else pc.ShowPopUp(GetString("GuessGuardianTask"));
                     return true;
                 }
+                if (role == CustomRoles.Sick)
+                {
+                    // todo msg
+                    return true;
+                }
                 if (pc.Is(CustomRoles.Doomsayer))
                 {
                     if (Doomsayer.CantGuess)
