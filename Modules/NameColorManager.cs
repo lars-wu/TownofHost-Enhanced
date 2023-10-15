@@ -135,7 +135,7 @@ public static class NameColorManager
                 if (target.Is(CustomRoleTypes.Neutral)) color = Main.roleColors[CustomRoles.SwordsMan];
                 if (target.Is(CustomRoles.Charmed)) color = Main.roleColors[CustomRoles.SwordsMan];
                 if (target.Is(CustomRoles.Infected)) color = Main.roleColors[CustomRoles.SwordsMan];
-                if (target.Is(CustomRoles.Contagious)) color = Main.roleColors[CustomRoles.SwordsMan];
+                if (target.Is(CustomRoles.Contaminated)) color = Main.roleColors[CustomRoles.SwordsMan];
                 if (target.Is(CustomRoles.Egoist)) color = Main.roleColors[CustomRoles.SwordsMan];
                 if (target.Is(CustomRoles.Recruit)) color = Main.roleColors[CustomRoles.SwordsMan];
                 if (target.Is(CustomRoles.Soulless)) color = Main.roleColors[CustomRoles.SwordsMan];
@@ -159,7 +159,7 @@ public static class NameColorManager
                 if (target.Is(CustomRoleTypes.Neutral)) color = Main.roleColors[CustomRoles.SwordsMan];
                 if (target.Is(CustomRoles.Charmed)) color = Main.roleColors[CustomRoles.SwordsMan];
                 if (target.Is(CustomRoles.Infected)) color = Main.roleColors[CustomRoles.SwordsMan];
-                if (target.Is(CustomRoles.Contagious)) color = Main.roleColors[CustomRoles.SwordsMan];
+                if (target.Is(CustomRoles.Contaminated)) color = Main.roleColors[CustomRoles.SwordsMan];
                 if (target.Is(CustomRoles.Egoist)) color = Main.roleColors[CustomRoles.SwordsMan];
                 if (target.Is(CustomRoles.Recruit)) color = Main.roleColors[CustomRoles.SwordsMan];
                 if (target.Is(CustomRoles.Soulless)) color = Main.roleColors[CustomRoles.SwordsMan];
@@ -197,9 +197,9 @@ public static class NameColorManager
         if ((target.PlayerId == Pirate.PirateTarget) && isMeeting) color = Main.roleColors[CustomRoles.Pirate]; */
 
         // Virus
-        if (seer.Is(CustomRoles.Contagious) && target.Is(CustomRoles.Virus)) color = Main.roleColors[CustomRoles.Virus];
-        if (seer.Is(CustomRoles.Virus) && target.Is(CustomRoles.Contagious)) color = Main.roleColors[CustomRoles.Contagious];
-        if (seer.Is(CustomRoles.Contagious) && target.Is(CustomRoles.Contagious) && Virus.TargetKnowOtherTarget.GetBool()) color = Main.roleColors[CustomRoles.Virus];
+        if (seer.Is(CustomRoles.Contaminated) && target.Is(CustomRoles.Virus)) color = Main.roleColors[CustomRoles.Virus];
+        if (seer.Is(CustomRoles.Virus) && target.Is(CustomRoles.Contaminated)) color = Main.roleColors[CustomRoles.Contaminated];
+        if (seer.Is(CustomRoles.Contaminated) && target.Is(CustomRoles.Contaminated) && Virus.TargetKnowOtherTarget.GetBool()) color = Main.roleColors[CustomRoles.Virus];
 
         if (color != "") return true;
         else return seer == target

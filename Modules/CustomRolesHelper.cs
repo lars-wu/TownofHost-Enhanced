@@ -305,7 +305,7 @@ static class CustomRolesHelper
             CustomRoles.Lazy or
        //     CustomRoles.Reflective or
             CustomRoles.Rascal or
-            CustomRoles.Contagious or
+            CustomRoles.Contaminated or
             CustomRoles.Guesser or
             CustomRoles.Rogue or
             CustomRoles.Unreportable or
@@ -326,7 +326,7 @@ static class CustomRolesHelper
         return role is CustomRoles.Charmed or
             CustomRoles.Recruit or
             CustomRoles.Infected or
-            CustomRoles.Contagious or
+            CustomRoles.Contaminated or
             CustomRoles.Lovers or
             CustomRoles.Madmate or
             CustomRoles.Soulless or
@@ -1548,7 +1548,7 @@ static class CustomRolesHelper
         return (role is CustomRoles.Charmed ||
                 role is CustomRoles.Recruit ||
                 role is CustomRoles.Infected ||
-                role is CustomRoles.Contagious ||
+                role is CustomRoles.Contaminated ||
                 role is CustomRoles.Lovers ||
                 ((role is CustomRoles.Egoist) && (ParityCop.ParityCheckEgoistInt() == 1)));
     }

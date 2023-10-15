@@ -87,7 +87,7 @@ public static class Gangster
         }
         else if (CanBeMadmate(target) && Mini.Age == 18 || CanBeMadmate(target) && !target.Is(CustomRoles.NiceMini) && Mini.Age != 18)
         {
-            if (!killer.Is(CustomRoles.Recruit) && !killer.Is(CustomRoles.Charmed) && !killer.Is(CustomRoles.Infected) && !killer.Is(CustomRoles.Contagious) && !killer.Is(CustomRoles.Admired))
+            if (!killer.Is(CustomRoles.Recruit) && !killer.Is(CustomRoles.Charmed) && !killer.Is(CustomRoles.Infected) && !killer.Is(CustomRoles.Contaminated) && !killer.Is(CustomRoles.Admired))
             {
                 RecruitLimit[killer.PlayerId]--;
                 SendRPC(killer.PlayerId);
@@ -197,14 +197,14 @@ public static class Gangster
                 Logger.Info($"{killer.GetNameWithRole()} : 剩余{RecruitLimit[killer.PlayerId]}次招募机会", "Gangster");
                 return true;
             }
-            if (killer.Is(CustomRoles.Contagious))
+            if (killer.Is(CustomRoles.Contaminated))
             {
                 RecruitLimit[killer.PlayerId]--;
                 SendRPC(killer.PlayerId);
-                target.RpcSetCustomRole(CustomRoles.Contagious);
+                target.RpcSetCustomRole(CustomRoles.Contaminated);
 
-                killer.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Contagious), GetString("GangsterSuccessfullyRecruited")));
-                target.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Contagious), GetString("BeRecruitedByGangster")));
+                killer.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Contaminated), GetString("GangsterSuccessfullyRecruited")));
+                target.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Contaminated), GetString("BeRecruitedByGangster")));
                 Utils.NotifyRoles();
 
                 killer.ResetKillCooldown();
@@ -213,7 +213,7 @@ public static class Gangster
                 target.RpcGuardAndKill(killer);
                 target.RpcGuardAndKill(target);
 
-                Logger.Info("设置职业:" + target?.Data?.PlayerName + " = " + target.GetCustomRole().ToString() + " + " + CustomRoles.Contagious.ToString(), "Assign " + CustomRoles.Contagious.ToString());
+                Logger.Info("设置职业:" + target?.Data?.PlayerName + " = " + target.GetCustomRole().ToString() + " + " + CustomRoles.Contaminated.ToString(), "Assign " + CustomRoles.Contaminated.ToString());
                 if (RecruitLimit[killer.PlayerId] < 0)
                     HudManager.Instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
                 Logger.Info($"{killer.GetNameWithRole()} : 剩余{RecruitLimit[killer.PlayerId]}次招募机会", "Gangster");

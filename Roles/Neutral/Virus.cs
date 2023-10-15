@@ -23,13 +23,13 @@ namespace TOHE.Roles.Neutral
         public static OptionItem KnowTargetRole;
         public static OptionItem TargetKnowOtherTarget;
         public static OptionItem KillInfectedPlayerAfterMeeting;
-        public static OptionItem ContagiousCountMode;
+        public static OptionItem ContaminatedCountMode;
 
-        public static readonly string[] contagiousCountMode =
+        public static readonly string[] ContaminatedCountModeOptions =
         {
-            "ContagiousCountMode.None",
-            "ContagiousCountMode.Virus",
-            "ContagiousCountMode.Original",
+            "ContaminatedCountMode.None",
+            "ContaminatedCountMode.Virus",
+            "ContaminatedCountMode.Original",
         };
 
         public static void SetupCustomOption()
@@ -44,7 +44,7 @@ namespace TOHE.Roles.Neutral
             KnowTargetRole = BooleanOptionItem.Create(Id + 13, "VirusKnowTargetRole", true, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Virus]);
             TargetKnowOtherTarget = BooleanOptionItem.Create(Id + 14, "VirusTargetKnowOtherTarget", true, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Virus]);
             KillInfectedPlayerAfterMeeting = BooleanOptionItem.Create(Id + 15, "VirusKillInfectedPlayerAfterMeeting", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Virus]);
-            ContagiousCountMode = StringOptionItem.Create(Id + 18, "ContagiousCountMode", contagiousCountMode, 1, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Virus]);
+            ContaminatedCountMode = StringOptionItem.Create(Id + 18, "ContaminatedCountMode", ContaminatedCountModeOptions, 1, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Virus]);
         }
 
         public static void Init()
@@ -106,14 +106,14 @@ namespace TOHE.Roles.Neutral
             }
             else
             {
-                target.RpcSetCustomRole(CustomRoles.Contagious);
+                target.RpcSetCustomRole(CustomRoles.Contaminated);
 
                 Utils.NotifyRoles();
 
                 Main.VirusNotify.Add(target.PlayerId, GetString("VirusNoticeMessage"));
             }
 
-            Logger.Info("设置职业:" + target?.Data?.PlayerName + " = " + target.GetCustomRole().ToString() + " + " + CustomRoles.Contagious.ToString(), "Assign " + CustomRoles.Contagious.ToString());
+            Logger.Info("设置职业:" + target?.Data?.PlayerName + " = " + target.GetCustomRole().ToString() + " + " + CustomRoles.Contaminated.ToString(), "Assign " + CustomRoles.Contaminated.ToString());
         }
 
         public static void OnCheckForEndVoting(PlayerState.DeathReason deathReason, params byte[] exileIds)
@@ -162,16 +162,16 @@ namespace TOHE.Roles.Neutral
 
         public static bool KnowRole(PlayerControl player, PlayerControl target)
         {
-            if (player.Is(CustomRoles.Contagious) && target.Is(CustomRoles.Virus)) return true;
-            if (KnowTargetRole.GetBool() && player.Is(CustomRoles.Virus) && target.Is(CustomRoles.Contagious)) return true;
-            if (TargetKnowOtherTarget.GetBool() && player.Is(CustomRoles.Contagious) && target.Is(CustomRoles.Contagious)) return true;
+            if (player.Is(CustomRoles.Contaminated) && target.Is(CustomRoles.Virus)) return true;
+            if (KnowTargetRole.GetBool() && player.Is(CustomRoles.Virus) && target.Is(CustomRoles.Contaminated)) return true;
+            if (TargetKnowOtherTarget.GetBool() && player.Is(CustomRoles.Contaminated) && target.Is(CustomRoles.Contaminated)) return true;
             return false;
         }
         public static string GetInfectLimit() => Utils.ColorString(InfectLimit >= 1 ? Utils.GetRoleColor(CustomRoles.Virus).ShadeColor(0.25f) : Color.gray, $"({InfectLimit})");
 
         public static bool CanBeInfected(this PlayerControl pc)
         {
-            return true && !pc.Is(CustomRoles.Virus) && !pc.Is(CustomRoles.Contagious) && !pc.Is(CustomRoles.Loyal) && !pc.Is(CustomRoles.Admired) && !pc.Is(CustomRoles.Succubus) && !pc.Is(CustomRoles.Infectious);
+            return true && !pc.Is(CustomRoles.Virus) && !pc.Is(CustomRoles.Contaminated) && !pc.Is(CustomRoles.Loyal) && !pc.Is(CustomRoles.Admired) && !pc.Is(CustomRoles.Succubus) && !pc.Is(CustomRoles.Infectious);
         }
     }
 }

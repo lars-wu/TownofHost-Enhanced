@@ -25,7 +25,7 @@ public static class Sheriff
     public static OptionItem CanKillSidekicks;
     public static OptionItem CanKillEgoists;
     public static OptionItem CanKillInfected;
-    public static OptionItem CanKillContagious;
+    public static OptionItem CanKillContaminated;
     public static OptionItem SidekickSheriffCanGoBerserk;
     public static OptionItem SetNonCrewCanKill;
     public static OptionItem NonCrewCanKillCrew;
@@ -54,7 +54,7 @@ public static class Sheriff
         CanKillSidekicks = BooleanOptionItem.Create(Id + 23, "SheriffCanKillSidekick", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
         CanKillEgoists = BooleanOptionItem.Create(Id + 25, "SheriffCanKillEgoist", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
         CanKillInfected = BooleanOptionItem.Create(Id + 26, "SheriffCanKillInfected", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-        CanKillContagious = BooleanOptionItem.Create(Id + 27, "SheriffCanKillContagious", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+        CanKillContaminated = BooleanOptionItem.Create(Id + 27, "SheriffCanKillContaminated", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
         CanKillNeutrals = BooleanOptionItem.Create(Id + 16, "SheriffCanKillNeutrals", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
         CanKillNeutralsMode = StringOptionItem.Create(Id + 14, "SheriffCanKillNeutralsMode", KillOption, 0, TabGroup.CrewmateRoles, false).SetParent(CanKillNeutrals);
         SetUpNeutralOptions(Id + 30);
@@ -160,8 +160,8 @@ public static class Sheriff
                 CanKill = CanKillEgoists.GetBool();
             if (SubRoleTarget == CustomRoles.Infected)
                 CanKill = CanKillInfected.GetBool();
-            if (SubRoleTarget == CustomRoles.Contagious)
-                CanKill = CanKillContagious.GetBool();
+            if (SubRoleTarget == CustomRoles.Contaminated)
+                CanKill = CanKillContaminated.GetBool();
             if (SubRoleTarget == CustomRoles.Rascal)
                 CanKill = true;
             if (SubRoleTarget == CustomRoles.Admired)

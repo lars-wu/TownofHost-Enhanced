@@ -23,7 +23,7 @@ public static class Judge
     private static OptionItem CanTrialCharmed;
     private static OptionItem CanTrialSidekick;
     private static OptionItem CanTrialInfected;
-    private static OptionItem CanTrialContagious;
+    private static OptionItem CanTrialContaminated;
     private static OptionItem CanTrialCrewKilling;
     private static OptionItem CanTrialNeutralB;
     private static OptionItem CanTrialNeutralK;
@@ -40,7 +40,7 @@ public static class Judge
         CanTrialCharmed = BooleanOptionItem.Create(Id + 16, "JudgeCanTrialCharmed", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Judge]);
         CanTrialSidekick = BooleanOptionItem.Create(Id + 19, "JudgeCanTrialSidekick", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Judge]);
         CanTrialInfected = BooleanOptionItem.Create(Id + 20, "JudgeCanTrialInfected", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Judge]);
-        CanTrialContagious = BooleanOptionItem.Create(Id + 21, "JudgeCanTrialContagious", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Judge]);
+        CanTrialContaminated = BooleanOptionItem.Create(Id + 21, "JudgeCanTrialContaminated", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Judge]);
         CanTrialCrewKilling = BooleanOptionItem.Create(Id + 13, "JudgeCanTrialnCrewKilling", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Judge]);
         CanTrialNeutralB = BooleanOptionItem.Create(Id + 14, "JudgeCanTrialNeutralB", false, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Judge]);
         CanTrialNeutralE = BooleanOptionItem.Create(Id + 17, "JudgeCanTrialNeutralE", false, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Judge]);
@@ -144,7 +144,7 @@ public static class Judge
                 else if (pc.Is(CustomRoles.Charmed)) judgeSuicide = false;
                 else if (pc.Is(CustomRoles.Recruit)) judgeSuicide = false;
                 else if (pc.Is(CustomRoles.Infected)) judgeSuicide = false;
-                else if (pc.Is(CustomRoles.Contagious)) judgeSuicide = false;
+                else if (pc.Is(CustomRoles.Contaminated)) judgeSuicide = false;
                 else if (target.Is(CustomRoles.Rascal)) judgeSuicide = false;
                 else if (target.Is(CustomRoles.Pestilence)) judgeSuicide = true;
                 else if (target.Is(CustomRoles.Trickster)) judgeSuicide = true;

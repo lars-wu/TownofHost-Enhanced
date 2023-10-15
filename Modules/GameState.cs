@@ -102,7 +102,7 @@ public class PlayerState
             SubRoles.Remove(CustomRoles.Charmed);
             SubRoles.Remove(CustomRoles.Recruit);
             SubRoles.Remove(CustomRoles.Infected);
-            SubRoles.Remove(CustomRoles.Contagious);
+            SubRoles.Remove(CustomRoles.Contaminated);
             SubRoles.Remove(CustomRoles.Rogue);
             SubRoles.Remove(CustomRoles.Rascal);
             SubRoles.Remove(CustomRoles.Soulless);
@@ -121,7 +121,7 @@ public class PlayerState
             SubRoles.Remove(CustomRoles.Madmate);
             SubRoles.Remove(CustomRoles.Recruit);
             SubRoles.Remove(CustomRoles.Infected);
-            SubRoles.Remove(CustomRoles.Contagious);
+            SubRoles.Remove(CustomRoles.Contaminated);
             SubRoles.Remove(CustomRoles.Rogue);
             SubRoles.Remove(CustomRoles.Rascal);
             SubRoles.Remove(CustomRoles.Soulless);
@@ -144,7 +144,7 @@ public class PlayerState
             SubRoles.Remove(CustomRoles.Madmate);
             SubRoles.Remove(CustomRoles.Charmed);
             SubRoles.Remove(CustomRoles.Infected);
-            SubRoles.Remove(CustomRoles.Contagious);
+            SubRoles.Remove(CustomRoles.Contaminated);
             SubRoles.Remove(CustomRoles.Rogue);
             SubRoles.Remove(CustomRoles.Rascal);
             SubRoles.Remove(CustomRoles.Soulless);
@@ -159,15 +159,15 @@ public class PlayerState
             SubRoles.Remove(CustomRoles.Recruit);
             SubRoles.Remove(CustomRoles.Charmed);
             SubRoles.Remove(CustomRoles.Rogue);
-            SubRoles.Remove(CustomRoles.Contagious);
+            SubRoles.Remove(CustomRoles.Contaminated);
             SubRoles.Remove(CustomRoles.Rascal);
             SubRoles.Remove(CustomRoles.Soulless);
             SubRoles.Remove(CustomRoles.Loyal);
             SubRoles.Remove(CustomRoles.Admired);
         }
-        if (role == CustomRoles.Contagious)
+        if (role == CustomRoles.Contaminated)
         {
-            countTypes = Virus.ContagiousCountMode.GetInt() switch
+            countTypes = Virus.ContaminatedCountMode.GetInt() switch
             {
                 0 => CountTypes.OutOfGame,
                 1 => CountTypes.Virus,
@@ -191,7 +191,7 @@ public class PlayerState
             SubRoles.Remove(CustomRoles.Recruit);
             SubRoles.Remove(CustomRoles.Charmed);
             SubRoles.Remove(CustomRoles.Infected);
-            SubRoles.Remove(CustomRoles.Contagious);
+            SubRoles.Remove(CustomRoles.Contaminated);
             SubRoles.Remove(CustomRoles.Rascal);
             SubRoles.Remove(CustomRoles.Soulless);
             SubRoles.Remove(CustomRoles.Loyal);
@@ -213,7 +213,7 @@ public class PlayerState
             SubRoles.Remove(CustomRoles.Recruit);
             SubRoles.Remove(CustomRoles.Charmed);
             SubRoles.Remove(CustomRoles.Infected);
-            SubRoles.Remove(CustomRoles.Contagious);
+            SubRoles.Remove(CustomRoles.Contaminated);
             SubRoles.Remove(CustomRoles.Rascal);
             SubRoles.Remove(CustomRoles.Soulless);
             SubRoles.Remove(CustomRoles.Loyal);
@@ -226,7 +226,7 @@ public class PlayerState
             SubRoles.Remove(CustomRoles.Recruit);
             SubRoles.Remove(CustomRoles.Charmed);
             SubRoles.Remove(CustomRoles.Infected);
-            SubRoles.Remove(CustomRoles.Contagious);
+            SubRoles.Remove(CustomRoles.Contaminated);
             SubRoles.Remove(CustomRoles.Rascal);
             SubRoles.Remove(CustomRoles.Rogue);
             SubRoles.Remove(CustomRoles.Loyal);

@@ -59,7 +59,7 @@ public static class Admirer
         if (AdmireLimit < 1) return;
         if (CanBeAdmired(target))
         {
-            if (!killer.Is(CustomRoles.Recruit) && !killer.Is(CustomRoles.Charmed) && !killer.Is(CustomRoles.Infected) && !killer.Is(CustomRoles.Contagious) && !killer.Is(CustomRoles.Admired))
+            if (!killer.Is(CustomRoles.Recruit) && !killer.Is(CustomRoles.Charmed) && !killer.Is(CustomRoles.Infected) && !killer.Is(CustomRoles.Contaminated) && !killer.Is(CustomRoles.Admired))
             {
                 AdmireLimit--;
             SendRPC();
@@ -159,14 +159,14 @@ public static class Admirer
             Logger.Info($"{killer.GetNameWithRole()} : 剩余{AdmireLimit}次魅惑机会", "Admirer");
             return;
             }
-            if (killer.Is(CustomRoles.Contagious))
+            if (killer.Is(CustomRoles.Contaminated))
             {
                 AdmireLimit--;
             SendRPC();
-            target.RpcSetCustomRole(CustomRoles.Contagious);
+            target.RpcSetCustomRole(CustomRoles.Contaminated);
 
-            killer.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Contagious), GetString("AdmiredPlayer")));
-            target.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Contagious), GetString("AdmirerAdmired")));
+            killer.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Contaminated), GetString("AdmiredPlayer")));
+            target.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Contaminated), GetString("AdmirerAdmired")));
             Utils.NotifyRoles();
 
             killer.ResetKillCooldown();
@@ -175,7 +175,7 @@ public static class Admirer
             target.RpcGuardAndKill(killer);
             target.RpcGuardAndKill(target);
 
-            Logger.Info("设置职业:" + target?.Data?.PlayerName + " = " + target.GetCustomRole().ToString() + " + " + CustomRoles.Contagious.ToString(), "Assign " + CustomRoles.Contagious.ToString());
+            Logger.Info("设置职业:" + target?.Data?.PlayerName + " = " + target.GetCustomRole().ToString() + " + " + CustomRoles.Contaminated.ToString(), "Assign " + CustomRoles.Contaminated.ToString());
             Logger.Info($"{killer.GetNameWithRole()} : 剩余{AdmireLimit}次魅惑机会", "Admirer");
             return;
             }

@@ -1180,7 +1180,7 @@ static class ExtendedPlayerControl
         return sheriff.Is(CustomRoles.Madmate)
             || sheriff.Is(CustomRoles.Charmed)
             || sheriff.Is(CustomRoles.Infected)
-            || sheriff.Is(CustomRoles.Contagious)
+            || sheriff.Is(CustomRoles.Contaminated)
             || sheriff.Is(CustomRoles.Egoist);
     }
     public static bool IsEvilAddons(this PlayerControl target)
@@ -1190,7 +1190,7 @@ static class ExtendedPlayerControl
             || target.Is(CustomRoles.Charmed)
             || target.Is(CustomRoles.Recruit)
             || target.Is(CustomRoles.Infected)
-            || target.Is(CustomRoles.Contagious)
+            || target.Is(CustomRoles.Contaminated)
             || target.Is(CustomRoles.Rogue)
             || target.Is(CustomRoles.Rascal)
             || target.Is(CustomRoles.Soulless);
