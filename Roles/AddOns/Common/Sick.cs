@@ -34,7 +34,7 @@ namespace TOHE.Roles.AddOns.Common
             CanBeOnImp = BooleanOptionItem.Create(Id + 11, "ImpCanBeSick", true, TabGroup.Addons, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sick]);
             CanBeOnCrew = BooleanOptionItem.Create(Id + 12, "CrewCanBeSick", true, TabGroup.Addons, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sick]);
             CanBeOnNeutral = BooleanOptionItem.Create(Id + 13, "NeutralCanBeSick", true, TabGroup.Addons, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sick]);
-            TransmitTime = FloatOptionItem.Create(Id + 14, "SickTransmitTime", new(0f, 30f, 1f), 3f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sick])
+            TransmitTime = FloatOptionItem.Create(Id + 14, "SickTransmitTime", new(0f, 30f, 1f), 5f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sick])
                 .SetValueFormat(OptionFormat.Seconds);
             CauseVision = FloatOptionItem.Create(Id + 15, "SickCauseVision", new(0f, 5f, 0.05f), 0.65f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sick])
                 .SetValueFormat(OptionFormat.Multiplier);
