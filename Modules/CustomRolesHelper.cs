@@ -317,7 +317,8 @@ static class CustomRolesHelper
             CustomRoles.Bloodlust or
             CustomRoles.Overclocked or
             CustomRoles.Stubborn or
-            CustomRoles.EvilSpirit;
+            CustomRoles.EvilSpirit or
+            CustomRoles.Sick;
     }
     
     public static bool IsBetrayalAddon(this CustomRoles role)
