@@ -48,14 +48,20 @@ namespace TOHE.Roles.AddOns.Common
         {
             if (!player.Is(CustomRoles.Sick)) return;
 
+            if (!TransmitTimer.ContainsKey(player.PlayerId))
+                TransmitTimer.Add(player.PlayerId, new Dictionary<byte, float>());
+
             foreach (var targetPlayer in Main.AllAlivePlayerControls.Where(a => !a.Is(CustomRoles.Sick)))
             {
                 float range = NormalGameOptionsV07.KillDistances[Mathf.Clamp(player.Is(CustomRoles.Reach) ? 2 : Main.NormalOptions.KillDistance, 0, 2)] + 0.5f;
                 float dis = Vector2.Distance(player.transform.position, targetPlayer.transform.position);
-                if (dis > range) continue;
+                if (dis > range)
+                {
+                    if (TransmitTimer[player.PlayerId].ContainsKey(targetPlayer.PlayerId))
+                        TransmitTimer[player.PlayerId].Remove(targetPlayer.PlayerId);
 
-                if (!TransmitTimer.ContainsKey(player.PlayerId))
-                    TransmitTimer.Add(player.PlayerId, new Dictionary<byte, float>());
+                    continue;
+                }
 
                 if (TransmitTimer[player.PlayerId].ContainsKey(targetPlayer.PlayerId))
                 {
