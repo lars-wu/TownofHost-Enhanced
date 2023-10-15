@@ -1,5 +1,6 @@
 using AmongUs.GameOptions;
 using System.Linq;
+using TOHE.Roles.AddOns.Common;
 using TOHE.Roles.Crewmate;
 using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
@@ -1502,6 +1503,11 @@ static class CustomRolesHelper
                     || pc.Is(CustomRoles.Egoist))
                     return false;
                 if ((pc.GetCustomRole().IsNeutral() && !Options.NeutralCanBeSidekick.GetBool()) || (pc.GetCustomRole().IsCrewmate() && !Options.CrewmateCanBeSidekick.GetBool()) || (pc.GetCustomRole().IsImpostor() && !Options.ImpostorCanBeSidekick.GetBool()))
+                    return false;
+                break;
+
+            case CustomRoles.Sick:
+                if ((pc.GetCustomRole().IsCrewmate() && !Sick.CanBeOnCrew.GetBool()) || (pc.GetCustomRole().IsNeutral() && !Sick.CanBeOnNeutral.GetBool()) || (pc.GetCustomRole().IsImpostor() && !Sick.CanBeOnImp.GetBool()))
                     return false;
                 break;
         }

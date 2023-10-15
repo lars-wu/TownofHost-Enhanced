@@ -8,6 +8,7 @@ using Mathf = UnityEngine.Mathf;
 using TOHE.Roles.Crewmate;
 using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
+using TOHE.Roles.AddOns.Common;
 
 namespace TOHE.Modules;
 
@@ -495,9 +496,9 @@ public class PlayerGameOptionsSender : GameOptionsSender
 
         Dazzler.SetDazzled(player, opt);
         Deathpact.SetDeathpactVision(player, opt);
-
         Spiritcaller.ReduceVision(opt, player);
         Pitfall.SetPitfallTrapVision(opt, player);
+        Sick.SetSickVision(player, opt);
 
         foreach (var subRole in Main.PlayerStates[player.PlayerId].SubRoles)
         {
@@ -534,6 +535,11 @@ public class PlayerGameOptionsSender : GameOptionsSender
                     break;
                 case CustomRoles.Madmate:
                     opt.SetVision(Options.MadmateHasImpostorVision.GetBool());
+                    break;
+                case CustomRoles.Sick:
+                    opt.SetVision(false);
+                    opt.SetFloat(FloatOptionNames.CrewLightMod, Sick.CauseVision.GetFloat());
+                    opt.SetFloat(FloatOptionNames.ImpostorLightMod, Sick.CauseVision.GetFloat());
                     break;
             }
         }
