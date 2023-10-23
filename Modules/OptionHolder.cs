@@ -1518,6 +1518,11 @@ public static class Options
         Devourer.SetupCustomOption();
 
         /*
+         * Nightmare
+         */
+        Nightmare.SetupCustomOption();
+
+        /*
          * Pitfall
          */
         Pitfall.SetupCustomOption();

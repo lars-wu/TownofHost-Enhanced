@@ -151,6 +151,7 @@ static class CustomRolesHelper
                 CustomRoles.EvilMini => CustomRoles.Impostor,
                 CustomRoles.Blackmailer => CustomRoles.Shapeshifter,
                 CustomRoles.Spy => CustomRoles.Crewmate,
+                CustomRoles.Nightmare => CustomRoles.Shapeshifter,
 
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
@@ -675,7 +676,8 @@ static class CustomRolesHelper
             CustomRoles.Lurker or
             CustomRoles.EvilMini or
             CustomRoles.Blackmailer or
-            CustomRoles.Pitfall;
+            CustomRoles.Pitfall or
+            CustomRoles.Nightmare;
     }
     public static bool IsNeutral(this CustomRoles role)
     {

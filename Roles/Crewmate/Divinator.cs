@@ -290,7 +290,8 @@ public static class Divinator
                 CustomRoles.Pelican or
                 CustomRoles.Scavenger or
                 CustomRoles.Ludopath or
-                CustomRoles.Vulture
+                CustomRoles.Vulture or
+                CustomRoles.Nightmare
                 => "Result24",
 
                 CustomRoles.Jinx or

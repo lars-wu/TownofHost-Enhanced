@@ -434,6 +434,9 @@ public class PlayerGameOptionsSender : GameOptionsSender
             case CustomRoles.Blackmailer:
                 Blackmailer.ApplyGameOptions();
                 break;
+            case CustomRoles.Nightmare:
+                Nightmare.ApplyGameOptions();
+                break;
             default:
                 opt.SetVision(false);
                 break;
@@ -498,6 +501,7 @@ public class PlayerGameOptionsSender : GameOptionsSender
 
         Spiritcaller.ReduceVision(opt, player);
         Pitfall.SetPitfallTrapVision(opt, player);
+        Nightmare.SetNightmareVision(opt, player);
 
         foreach (var subRole in Main.PlayerStates[player.PlayerId].SubRoles)
         {

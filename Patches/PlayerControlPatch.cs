@@ -361,6 +361,9 @@ class CheckMurderPatch
                 case CustomRoles.Crusader:
                     Crusader.OnCheckMurder(killer, target);
                     return false;
+                case CustomRoles.Nightmare:
+                    if (!Nightmare.OnCheckMurder(killer, target)) return false;
+                    break;
 
                 //==========中立阵营==========//
                 case CustomRoles.Seeker: //必须在击杀发生前处理
@@ -1654,6 +1657,9 @@ class ShapeshiftPatch
                         Blackmailer.ForBlackmailer.Add(target.PlayerId);
                     }
                 break;
+                case CustomRoles.Nightmare:
+                    Nightmare.OnShapeshift(shapeshifter, target, shapeshifting);
+                    break;
             }
         }
 
@@ -2661,6 +2667,9 @@ class FixedUpdatePatch
 
                     if (Pitfall.IsEnable)
                         Pitfall.OnFixedUpdate(player);
+
+                    if (Nightmare.IsEnable)
+                        Nightmare.OnFixedUpdate(player);
 
                     switch (playerRole)
                     {

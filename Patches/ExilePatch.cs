@@ -213,7 +213,8 @@ class ExileControllerWrapUpPatch
                 CustomRoles.Doctor or
                 CustomRoles.Alchemist or
                 CustomRoles.Bomber or
-                CustomRoles.Undertaker
+                CustomRoles.Undertaker or
+                CustomRoles.Nightmare
                 ) pc.RpcResetAbilityCooldown();
 
 

@@ -321,7 +321,8 @@ internal class ChangeRoleSettings
             Blackmailer.Init();
             Spy.Init();
             FFF.Init();
-            
+            Nightmare.Init();
+
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             NameNotifyManager.Reset();
@@ -922,6 +923,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.FFF:
                         FFF.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Nightmare:
+                        Nightmare.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())
