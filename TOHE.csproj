@@ -9,8 +9,9 @@
     <langVersion>latest</langVersion>
 	<AmongUs>D:\Spiele\TOHE v3.1.0</AmongUs>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<Optimize>True</Optimize>
   </PropertyGroup>
-
+	
   <ItemGroup>
     <EmbeddedResource Include=".\Resources\**" />
   </ItemGroup>
