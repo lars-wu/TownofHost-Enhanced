@@ -547,7 +547,7 @@ public class Main : BasePlugin
                 {CustomRoles.Nimble, "#FFFAA6"},
                 {CustomRoles.Repairman, "#3333ff"},
                 {CustomRoles.Cyber, "#F46F4E" },
-                {CustomRoles.Sick, "#00ff00" },
+                {CustomRoles.Sick, "#b8ffbb" },
              //   {CustomRoles.QuickFix, "#3333ff"},
 
             };
