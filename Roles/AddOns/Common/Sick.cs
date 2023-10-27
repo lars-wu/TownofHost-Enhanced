@@ -46,7 +46,7 @@ namespace TOHE.Roles.AddOns.Common
 
         public static void OnFixedUpdate(PlayerControl player)
         {
-            if (!player.Is(CustomRoles.Sick)) return;
+            if (!player.Is(CustomRoles.Sick) || !GameStates.IsInTask) return;
 
             if (!TransmitTimer.ContainsKey(player.PlayerId))
                 TransmitTimer.Add(player.PlayerId, new Dictionary<byte, float>());
