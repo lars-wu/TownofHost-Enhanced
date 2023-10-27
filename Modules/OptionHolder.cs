@@ -1011,7 +1011,6 @@ public static class Options
         // GM
         EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.GameSettings, false)
             .SetColor(Utils.GetRoleColor(CustomRoles.GM))
-            .SetHidden(true)
             .SetHeader(true);
 
         // 各职业的总体设定
