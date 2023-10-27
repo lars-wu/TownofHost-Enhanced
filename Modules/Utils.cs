@@ -75,7 +75,7 @@ public static class Utils
     {
         foreach (var pc in Main.AllAlivePlayerControls)
         {
-            pc.RpcTeleport(new Vector2(location.x, location.y));
+            pc.RpcTeleport(location);
         }
     }
     public static void RpcTeleport(this PlayerControl player, Vector2 location)
@@ -982,7 +982,7 @@ public static class Utils
                     ProgressText.Append(CursedSoul.GetCurseLimit());
                     break;
                 case CustomRoles.Admirer:
-                    ProgressText.Append(Admirer.GetAdmireLimit());
+                    ProgressText.Append(Admirer.GetAdmireLimit(playerId));
                     break;
                 case CustomRoles.Infectious:
                     ProgressText.Append(Infectious.GetBiteLimit());
@@ -1612,8 +1612,12 @@ public static class Utils
                     Main.PlayerStates[pc.PlayerId].SetDead();
                 }
             }
-            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Terrorist);
-            CustomWinnerHolder.WinnerIds.Add(Terrorist.PlayerId);
+            if (!GetPlayerById(Terrorist.PlayerId).Is(CustomRoles.Admired))
+            {
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Terrorist);
+                CustomWinnerHolder.WinnerIds.Add(Terrorist.PlayerId);
+            }
+            else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
         }
     }
     public static void SendMessage(string text, byte sendTo = byte.MaxValue, string title = "")
@@ -1725,7 +1729,7 @@ public static class Utils
             {
                 if (!player.IsModClient()) return;
                 {
-                    if (GameStates.IsOnlineGame || GameStates.IsLocalGame)
+                    if ((GameStates.IsOnlineGame || GameStates.IsLocalGame) && !Main.AutoMuteUs.Value)
                         name = $"<color={GetString("HostColor")}>{GetString("HostText")}</color><color={GetString("IconColor")}>{GetString("Icon")}</color><color={GetString("NameColor")}>{name}</color>";
 
                     //name = $"<color=#902efd>{GetString("HostText")}</color><color=#4bf4ff>♥</color>" + name;
@@ -1821,7 +1825,7 @@ public static class Utils
                     }
                 }
             }           
-            if (!name.Contains('\r') && player.FriendCode.GetDevUser().HasTag())
+            if (!name.Contains('\r') && player.FriendCode.GetDevUser().HasTag() && !Main.AutoMuteUs.Value)
             {
                 name = player.FriendCode.GetDevUser().GetTag() + "<size=1.5>" + modtag + "</size>" + name;
             }
