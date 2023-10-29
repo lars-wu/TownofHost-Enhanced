@@ -621,17 +621,19 @@ internal class ChatCommands
 
                 case "/xf":
                     canceled = true;
-                    if (!GameStates.IsInGame)
+                    if (GameStates.IsLobby)
                     {
                         Utils.SendMessage(GetString("Message.CanNotUseInLobby"), PlayerControl.LocalPlayer.PlayerId);
                         break;
                     }
                     foreach (var pc in Main.AllPlayerControls)
                     {
+                        if (pc.IsAlive()) continue;
+
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
                     }
                     ChatUpdatePatch.DoBlockChat = false;
-                    Utils.NotifyRoles(isForMeeting: GameStates.IsMeeting, NoCache: true);
+                    //Utils.NotifyRoles(isForMeeting: GameStates.IsMeeting, NoCache: true);
                     Utils.SendMessage(GetString("Message.TryFixName"), PlayerControl.LocalPlayer.PlayerId);
                     break;
 
@@ -735,17 +737,17 @@ internal class ChatCommands
                         var rpsList = new List<string> { GetString("Rock"), GetString("Paper"), GetString("Scissors") };
                         if (botChoice == playerChoice)
                         {
-                            Utils.SendMessage(String.Format(GetString("RpsDraw"), rpsList[botChoice]), PlayerControl.LocalPlayer.PlayerId);
+                            Utils.SendMessage(string.Format(GetString("RpsDraw"), rpsList[botChoice]), PlayerControl.LocalPlayer.PlayerId);
                         }
                         else if ((botChoice == 0 && playerChoice == 2) ||
                                  (botChoice == 1 && playerChoice == 0) ||
                                  (botChoice == 2 && playerChoice == 1))
                         {
-                            Utils.SendMessage(String.Format(GetString("RpsLose"), rpsList[botChoice]), PlayerControl.LocalPlayer.PlayerId);
+                            Utils.SendMessage(string.Format(GetString("RpsLose"), rpsList[botChoice]), PlayerControl.LocalPlayer.PlayerId);
                         }
                         else
                         {
-                            Utils.SendMessage(String.Format(GetString("RpsWin"), rpsList[botChoice]), PlayerControl.LocalPlayer.PlayerId);
+                            Utils.SendMessage(string.Format(GetString("RpsWin"), rpsList[botChoice]), PlayerControl.LocalPlayer.PlayerId);
                         }
                         break;
                     }
@@ -762,7 +764,7 @@ internal class ChatCommands
                         var rand = IRandom.Instance;
                         int botChoice = rand.Next(1, 101);
                         var coinSide = (botChoice < 51) ? GetString("Heads") : GetString("Tails");
-                        Utils.SendMessage(String.Format(GetString("CoinFlipResult"),coinSide), PlayerControl.LocalPlayer.PlayerId);
+                        Utils.SendMessage(string.Format(GetString("CoinFlipResult"),coinSide), PlayerControl.LocalPlayer.PlayerId);
                         break;
                     }
                 case "/gno":
@@ -793,27 +795,29 @@ internal class ChatCommands
                             targetNumber = Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][0];
                         }
                         Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][1]--;
-                        if (Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][1] == 0)
+                        if (Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][1] == 0 && guessedNo != targetNumber)
                         {
                             Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][0] = -1;
                             Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][1] = 7;
                             //targetNumber = Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][0];
-                            Utils.SendMessage(String.Format(GetString("GNoLost"), targetNumber), PlayerControl.LocalPlayer.PlayerId);
+                            Utils.SendMessage(string.Format(GetString("GNoLost"), targetNumber), PlayerControl.LocalPlayer.PlayerId);
                             break;
                         }                        
                         else if (guessedNo < targetNumber)
                         {
-                            Utils.SendMessage(String.Format(GetString("GNoLow"), Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][1]), PlayerControl.LocalPlayer.PlayerId);
+                            Utils.SendMessage(string.Format(GetString("GNoLow"), Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][1]), PlayerControl.LocalPlayer.PlayerId);
                             break;
                         }
                         else if (guessedNo > targetNumber)
                         {
-                            Utils.SendMessage(String.Format(GetString("GNoHigh"), Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][1]), PlayerControl.LocalPlayer.PlayerId);
+                            Utils.SendMessage(string.Format(GetString("GNoHigh"), Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][1]), PlayerControl.LocalPlayer.PlayerId);
                             break;
                         }
                         else
                         {
-                            Utils.SendMessage(String.Format(GetString("GNoWon"), Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][1]), PlayerControl.LocalPlayer.PlayerId);
+                            Utils.SendMessage(string.Format(GetString("GNoWon"), Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][1]), PlayerControl.LocalPlayer.PlayerId);
+                            Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][0] = -1;
+                            Main.GuessNumber[PlayerControl.LocalPlayer.PlayerId][1] = 7;
                             break;
                         }
 
@@ -1761,13 +1765,19 @@ internal class ChatCommands
                 break;
 
             case "/xf":
-                if (!GameStates.IsInGame)
+                if (GameStates.IsLobby)
                 {
                     Utils.SendMessage(GetString("Message.CanNotUseInLobby"), player.PlayerId);
                     break;
                 }
+                foreach (var pc in Main.AllPlayerControls)
+                {
+                    if (pc.IsAlive()) continue;
+
+                    pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
+                }
                 ChatUpdatePatch.DoBlockChat = false;
-                Utils.NotifyRoles(isForMeeting: GameStates.IsMeeting, NoCache: true);
+                //Utils.NotifyRoles(isForMeeting: GameStates.IsMeeting, NoCache: true);
                 Utils.SendMessage(GetString("Message.TryFixName"), player.PlayerId);
                 break;
 
@@ -1833,17 +1843,17 @@ internal class ChatCommands
                     var rpsList = new List<string> { GetString("Rock"), GetString("Paper"), GetString("Scissors") };
                     if (botChoice == playerChoice)
                     {
-                        Utils.SendMessage(String.Format(GetString("RpsDraw"), rpsList[botChoice]), player.PlayerId);
+                        Utils.SendMessage(string.Format(GetString("RpsDraw"), rpsList[botChoice]), player.PlayerId);
                     }
                     else if ((botChoice == 0 && playerChoice == 2) ||
                              (botChoice == 1 && playerChoice == 0) ||
                              (botChoice == 2 && playerChoice == 1))
                     {
-                        Utils.SendMessage(String.Format(GetString("RpsLose"), rpsList[botChoice]), player.PlayerId);
+                        Utils.SendMessage(string.Format(GetString("RpsLose"), rpsList[botChoice]), player.PlayerId);
                     }
                     else
                     {
-                        Utils.SendMessage(String.Format(GetString("RpsWin"), rpsList[botChoice]), player.PlayerId);
+                        Utils.SendMessage(string.Format(GetString("RpsWin"), rpsList[botChoice]), player.PlayerId);
                     }
                     break;
                 }
@@ -1860,7 +1870,7 @@ internal class ChatCommands
                     var rand = IRandom.Instance;
                     int botChoice = rand.Next(1,101);
                     var coinSide = (botChoice < 51) ? GetString("Heads") : GetString("Tails");
-                    Utils.SendMessage(String.Format(GetString("CoinFlipResult"), coinSide), player.PlayerId);
+                    Utils.SendMessage(string.Format(GetString("CoinFlipResult"), coinSide), player.PlayerId);
                     break;
                 }
             case "/gno":
@@ -1891,27 +1901,29 @@ internal class ChatCommands
                         targetNumber = Main.GuessNumber[player.PlayerId][0];
                     }
                     Main.GuessNumber[player.PlayerId][1]--;
-                    if (Main.GuessNumber[player.PlayerId][1] == 0)
+                    if (Main.GuessNumber[player.PlayerId][1] == 0 && guessedNo != targetNumber)
                     {
                         Main.GuessNumber[player.PlayerId][0] = -1;
                         Main.GuessNumber[player.PlayerId][1] = 7;
                         //targetNumber = Main.GuessNumber[player.PlayerId][0];
-                        Utils.SendMessage(String.Format(GetString("GNoLost"), targetNumber), player.PlayerId);
+                        Utils.SendMessage(string.Format(GetString("GNoLost"), targetNumber), player.PlayerId);
                         break;
                     }
                     else if (guessedNo < targetNumber)
                     {
-                        Utils.SendMessage(String.Format(GetString("GNoLow"), Main.GuessNumber[player.PlayerId][1]), player.PlayerId);
+                        Utils.SendMessage(string.Format(GetString("GNoLow"), Main.GuessNumber[player.PlayerId][1]), player.PlayerId);
                         break;
                     }
                     else if (guessedNo > targetNumber)
                     {
-                        Utils.SendMessage(String.Format(GetString("GNoHigh"), Main.GuessNumber[player.PlayerId][1]), player.PlayerId);
+                        Utils.SendMessage(string.Format(GetString("GNoHigh"), Main.GuessNumber[player.PlayerId][1]), player.PlayerId);
                         break;
                     }
                     else
                     {
-                        Utils.SendMessage(String.Format(GetString("GNoWon"), 7-Main.GuessNumber[player.PlayerId][1]), player.PlayerId);
+                        Utils.SendMessage(string.Format(GetString("GNoWon"), 7-Main.GuessNumber[player.PlayerId][1]), player.PlayerId);
+                        Main.GuessNumber[player.PlayerId][0] = -1;
+                        Main.GuessNumber[player.PlayerId][1] = 7;
                         break;
                     }
                 }
