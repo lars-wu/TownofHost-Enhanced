@@ -103,6 +103,9 @@ namespace TOHE.Roles.Impostor
             {
                 ReportDeadBodyPatch.CanReport[target.PlayerId] = false;
 
+                PlayersInNightmare.Add(target);
+                PlayersInNightmare.Add(pc);
+
                 OriginPs.Add(target.PlayerId, target.GetTruePosition());
                 OriginPs.Add(pc.PlayerId, pc.GetTruePosition());
 
@@ -118,11 +121,15 @@ namespace TOHE.Roles.Impostor
                 pc.RpcTeleport(pcPosition);
                 pc.RPCPlayCustomSound("Teleport");
 
-                PlayersInNightmare.Add(pc);
-                PlayersInNightmare.Add(target);
+                Logger.Info($"{PlayersInNightmare.Any()}", "Nightmare");
+
+                target.MarkDirtySettings();
+                pc.MarkDirtySettings();
             }
             else
             {
+                ReportDeadBodyPatch.CanReport[target.PlayerId] = true;
+
                 foreach (var player in PlayersInNightmare)
                 {
                     if (player.Data.IsDead) continue;
@@ -131,14 +138,13 @@ namespace TOHE.Roles.Impostor
                     player.RPCPlayCustomSound("Teleport");
                 }
 
+                var markDirtyPlayers = PlayersInNightmare.ToList();
+
                 PlayersInNightmare.Clear();
                 OriginPs.Clear();
 
-                ReportDeadBodyPatch.CanReport[target.PlayerId] = true;
+                foreach (var player in markDirtyPlayers) player.MarkDirtySettings();
             }
-
-            target.MarkDirtySettings();
-            pc.MarkDirtySettings();
         }
 
         public static void OnFixedUpdate(PlayerControl player)
@@ -157,6 +163,12 @@ namespace TOHE.Roles.Impostor
 
         public static void SetNightmareVision(IGameOptions opt, PlayerControl target)
         {
+            Logger.Info($"{target.PlayerId}", "Nightmare");
+            Logger.Info($"{PlayersInNightmare.Any()}", "Nightmare");
+
+            if (PlayersInNightmare.Any())
+                Logger.Info($"{string.Join(',', PlayersInNightmare.Select(a => a.PlayerId))}", "Nightmare"); 
+
             if (PlayersInNightmare.Any(a => a.PlayerId == target.PlayerId))
             {
                 opt.SetVision(false);
