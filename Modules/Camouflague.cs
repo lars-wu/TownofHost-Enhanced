@@ -40,10 +40,13 @@ public static class Camouflage
     public static bool IsCamouflage;
     public static Dictionary<byte, GameData.PlayerOutfit> PlayerSkins = new();
 
+    public static List<byte> ResetSkinAfterDeathPlayers = new();
+
     public static void Init()
     {
         IsCamouflage = false;
         PlayerSkins.Clear();
+        ResetSkinAfterDeathPlayers = new();
 
         switch (Options.KPDCamouflageMode.GetValue())
         { 
@@ -93,6 +96,7 @@ public static class Camouflage
             ((Options.DisableOnSkeld.GetBool() && Options.IsActiveSkeld) ||
              (Options.DisableOnMira.GetBool() && Options.IsActiveMiraHQ) ||
              (Options.DisableOnPolus.GetBool() && Options.IsActivePolus) ||
+             (Options.DisableOnFungle.GetBool() && Options.IsActiveFungle) ||
              (Options.DisableOnAirship.GetBool() && Options.IsActiveAirship)
             )))
             || Camouflager.IsActive;
@@ -102,11 +106,6 @@ public static class Camouflage
             foreach (var pc in Main.AllPlayerControls)
             {
                 RpcSetSkin(pc);
-
-                if (!IsCamouflage && !pc.IsAlive())
-                {
-                    pc.RpcRemovePet();
-                }
             }
             Utils.NotifyRoles(NoCache: true);
         }
@@ -138,10 +137,10 @@ public static class Camouflage
                 id = Main.ShapeshiftTarget[id];
             }
 
-            if (!GameEnd && Doppelganger.DoppelPresentSkin.Keys.Contains(id)) newOutfit = Doppelganger.DoppelPresentSkin[id];
+            if (!GameEnd && Doppelganger.DoppelPresentSkin.ContainsKey(id)) newOutfit = Doppelganger.DoppelPresentSkin[id];
             else
             {
-                if (GameEnd && Doppelganger.DoppelVictim.Keys.Contains(id))
+                if (GameEnd && Doppelganger.DoppelVictim.ContainsKey(id))
                 {
                     //if (id == PlayerControl.LocalPlayer.PlayerId) Main.nickName = Doppelganger.DoppelVictim[id];
                     //else 

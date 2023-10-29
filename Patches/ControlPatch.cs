@@ -64,7 +64,7 @@ internal class ControllerManagerUpdatePatch
             {
                 var role = PlayerControl.LocalPlayer.GetCustomRole();
                 var lp = PlayerControl.LocalPlayer;
-                if (Main.PlayerStates[lp.PlayerId].SubRoles.Count < 1) return;
+                if (!Main.PlayerStates[lp.PlayerId].SubRoles.Any()) return;
 
                 addDes = new();
                 foreach (var subRole in Main.PlayerStates[lp.PlayerId].SubRoles.Where(x => x is not CustomRoles.Charmed))
@@ -237,10 +237,10 @@ internal class ControllerManagerUpdatePatch
         //打开飞艇所有的门
         if (GetKeysDown(KeyCode.Return, KeyCode.D, KeyCode.LeftShift) && GameStates.IsInGame)
         {
-            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 79);
-            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 80);
-            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
-            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
+            ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, 79);
+            ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, 80);
+            ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, 81);
+            ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, 82);
         }
 
         //将击杀冷却设定为0秒
@@ -296,6 +296,16 @@ internal class ControllerManagerUpdatePatch
                 }
             }
         }
+      /*if (Input.GetKeyDown(KeyCode.L))
+        {
+            Logger.Info($"{Utils.IsActive(SystemTypes.Reactor)}", "Check SystemType.Reactor");
+            Logger.Info($"{Utils.IsActive(SystemTypes.LifeSupp)}", "Check SystemTypes.LifeSupp");
+            Logger.Info($"{Utils.IsActive(SystemTypes.Laboratory)}", "Check SystemTypes.Laboratory");
+            Logger.Info($"{Utils.IsActive(SystemTypes.HeliSabotage)}", "Check SystemTypes.HeliSabotage");
+            Logger.Info($"{Utils.IsActive(SystemTypes.Comms)}", "Check SystemTypes.Comms");
+            Logger.Info($"{Utils.IsActive(SystemTypes.Electrical)}", "Check SystemTypes.Electrical");
+            Logger.Info($"{Utils.IsActive(SystemTypes.MushroomMixupSabotage)}", "Check SystemTypes.MushroomMixupSabotage");
+        }*/
         if (Input.GetKeyDown(KeyCode.B))
         {
             foreach (var pc in PlayerControl.AllPlayerControls)

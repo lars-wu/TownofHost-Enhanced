@@ -3,7 +3,6 @@ using HarmonyLib;
 using Hazel;
 using System.Collections.Generic;
 using System.Linq;
-using TOHE.Roles.Double;
 using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using static TOHE.Translator;
@@ -491,7 +490,7 @@ class GameEndChecker
         {
             reason = GameOverReason.ImpostorByKill;
 
-            if (CustomRolesHelper.RoleExist(CustomRoles.Sunnyboy) && Main.AllAlivePlayerControls.Count() > 1) return false;
+            if (CustomRoles.Sunnyboy.RoleExist() && Main.AllAlivePlayerControls.Count() > 1) return false;
 
             int Imp = Utils.AlivePlayersCount(CountTypes.Impostor);
             int Jackal = Utils.AlivePlayersCount(CountTypes.Jackal);
@@ -833,6 +832,7 @@ public abstract class GameEndPredicate
         ISystemType sys = null;
         if (systems.ContainsKey(SystemTypes.Reactor)) sys = systems[SystemTypes.Reactor];
         else if (systems.ContainsKey(SystemTypes.Laboratory)) sys = systems[SystemTypes.Laboratory];
+        else if (systems.ContainsKey(SystemTypes.HeliSabotage)) sys = systems[SystemTypes.HeliSabotage];
 
         ICriticalSabotage critical;
         if (sys != null && // サボタージュ存在確認

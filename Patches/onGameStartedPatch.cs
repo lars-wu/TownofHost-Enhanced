@@ -118,7 +118,8 @@ internal class ChangeRoleSettings
             Main.CrewpostorTasksDone = new();
             Main.ShamanTarget = byte.MaxValue;
             Main.ShamanTargetChoosen = false;
-            ChatManager.resetHistory();
+            Main.MeetingIsStarted = false;
+            ChatManager.ResetHistory();
 
             ReportDeadBodyPatch.CanReport = new();
 
@@ -147,6 +148,7 @@ internal class ChangeRoleSettings
             RPC.SyncAllPlayerNames();
 
             Camouflage.Init();
+
             var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
             if (invalidColor.Any())
             {

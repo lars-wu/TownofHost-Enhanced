@@ -83,9 +83,11 @@ public static class Vampire
         var vampireID = vampire.PlayerId;
         List<byte> targetList = new(BittenPlayers.Where(b => b.Value.VampireId == vampireID).Select(b => b.Key));
 
-        foreach (var targetId in targetList)
+        for (var id = 0; id < targetList.Count; id++)
         {
+            var targetId = targetList[id];
             var bitten = BittenPlayers[targetId];
+
             if (bitten.KillTimer >= KillDelay)
             {
                 var target = Utils.GetPlayerById(targetId);
@@ -106,9 +108,12 @@ public static class Vampire
         {
             Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Bite;
             target.SetRealKiller(vampire);
+            //target.RpcMurderPlayer(target, true);
+            //target.RpcMurderPlayerV2(target);
             target.RpcMurderPlayerV3(target);
+
             Medic.IsDead(target);
-            Logger.Info($"Vampireに噛まれている{target.name}を自爆させました。", "Vampire");
+            Logger.Info($"{target.name} self-kill while being bitten by Vampire.", "Vampire");
             if (!isButton && vampire.IsAlive())
             {
                 RPC.PlaySoundRPC(vampire.PlayerId, Sounds.KillSound);
@@ -120,7 +125,7 @@ public static class Vampire
         }
         else
         {
-            Logger.Info("Vampireに噛まれている" + target.name + "はすでに死んでいました。", "Vampire");
+            Logger.Info($"{target.name} was dead after being bitten by Vampire", "Vampire");
         }
     }
 

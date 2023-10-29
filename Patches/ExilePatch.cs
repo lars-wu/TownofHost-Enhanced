@@ -132,7 +132,7 @@ class ExileControllerWrapUpPatch
         HexMaster.RemoveHexedPlayer();
         //Occultist.RemoveCursedPlayer();
 
-        if (Swapper.Vote.Count > 0 && Swapper.VoteTwo.Count > 0)
+        if (Swapper.Vote.Any() && Swapper.VoteTwo.Any())
         {
             foreach (var swapper in Main.AllAlivePlayerControls)
             {
@@ -231,9 +231,8 @@ class ExileControllerWrapUpPatch
                 Shroud.MurderShroudedPlayers(pc);
             }
 
+            Main.MeetingIsStarted = false;
             Main.MeetingsPassed++;
-
-            pc.RpcRemovePet();
 
             if (Options.RandomSpawn.GetBool())
             {
@@ -250,6 +249,10 @@ class ExileControllerWrapUpPatch
                         break;
                     case 2:
                         map = new RandomSpawn.PolusSpawnMap();
+                        Main.AllPlayerControls.Do(map.RandomTeleport);
+                        break;
+                    case 5:
+                        map = new RandomSpawn.FungleSpawnMap();
                         Main.AllPlayerControls.Do(map.RandomTeleport);
                         break;
                 }
