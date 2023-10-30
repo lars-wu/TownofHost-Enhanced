@@ -1023,7 +1023,7 @@ public static class Options
         CustomAdtRoleSpawnRate = new();
 
         // GM
-        EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.GameSettings, false)
+        EnableGM = BooleanOptionItem.Create(100, "GM", true, TabGroup.GameSettings, false)
             .SetColor(Utils.GetRoleColor(CustomRoles.GM))
             .SetHeader(true);
 
