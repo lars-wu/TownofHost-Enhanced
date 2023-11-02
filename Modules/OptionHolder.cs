@@ -1720,11 +1720,6 @@ public static class Options
         Deputy.SetupCustomOption();
 
         /*
-         * Enigma
-         */
-        Enigma.SetupCustomOption();
-
-        /*
          * Detective
          */
         SetupRoleOptions(6600, TabGroup.CrewmateRoles, CustomRoles.Detective);
@@ -1733,6 +1728,7 @@ public static class Options
 
         
         Divinator.SetupCustomOption(); // Fortune Teller
+        Enigma.SetupCustomOption();
         SetupRoleOptions(6800, TabGroup.CrewmateRoles, CustomRoles.Grenadier);
         GrenadierSkillCooldown = FloatOptionItem.Create(6810, "GrenadierSkillCooldown", new(1f, 180f, 1f), 25f, TabGroup.CrewmateRoles, false)
             .SetParent(CustomRoleSpawnChances[CustomRoles.Grenadier])
