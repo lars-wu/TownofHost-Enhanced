@@ -59,7 +59,7 @@ namespace TOHE.Roles.Impostor
                 foreach (var playerVote in votedForExiled)
                 {
                     var crewPlayer = Main.AllPlayerControls.FirstOrDefault(a => a.PlayerId == playerVote.TargetPlayerId);
-                    if (crewPlayer == null || !crewPlayer.Data.GetCustomRole().IsCrewmate()) continue;
+                    if (crewPlayer == null || !crewPlayer.GetCustomRole().IsCrewmate()) continue;
                     killPotentials.Add(crewPlayer);
                 }
 
@@ -71,7 +71,7 @@ namespace TOHE.Roles.Impostor
                 {
                     if (!killPotentials.Any()) break;
 
-                    PlayerControl target = killPotentials[rd.Next(0, killPotentials.Count-1)];
+                    PlayerControl target = killPotentials[rd.Next(0, killPotentials.Count)];
                     target.SetRealKiller(killer);
                     killPlayers.Add(target.PlayerId);
                     killPotentials.Remove(target);
