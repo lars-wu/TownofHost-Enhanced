@@ -1240,6 +1240,25 @@ class CheckShapeshiftPatch
 
         return true;
     }
+
+    public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, bool shouldAnimate)
+    {
+        
+    }
+}
+
+[HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CmdCheckShapeshift))]
+class CmdCheckShapeshiftPatch
+{
+    public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, bool shouldAnimate)
+    {
+        return CheckShapeshiftPatch.Prefix(__instance, target, shouldAnimate);
+    }
+
+    public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, bool shouldAnimate)
+    {
+        CheckShapeshiftPatch.Postfix(__instance, target, shouldAnimate);
+    }
 }
 
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
