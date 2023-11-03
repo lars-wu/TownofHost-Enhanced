@@ -114,6 +114,7 @@ static class CustomRolesHelper
                 CustomRoles.Workaholic => CustomRoles.Engineer,
                 CustomRoles.CursedWolf => CustomRoles.Impostor,
                 CustomRoles.Collector => CustomRoles.Crewmate,
+                CustomRoles.Taskinator => CustomRoles.Engineer,
                 CustomRoles.ImperiusCurse => CustomRoles.Shapeshifter,
                 CustomRoles.QuickShooter => CustomRoles.Shapeshifter,
                 CustomRoles.Eraser => CustomRoles.Impostor,
@@ -375,6 +376,7 @@ static class CustomRolesHelper
             CustomRoles.Agitater or
             CustomRoles.Innocent or
             CustomRoles.Vulture or
+            CustomRoles.Taskinator or
             CustomRoles.NWitch or
             CustomRoles.Pursuer or
             CustomRoles.Revolutionist or
@@ -498,6 +500,7 @@ static class CustomRolesHelper
             CustomRoles.Pirate or
             CustomRoles.Terrorist or
             CustomRoles.Vulture or
+            CustomRoles.Taskinator or
             CustomRoles.Workaholic or
             CustomRoles.God or
             CustomRoles.Mario or
@@ -518,6 +521,7 @@ static class CustomRolesHelper
             CustomRoles.Opportunist or
             CustomRoles.Pursuer or
             CustomRoles.Shaman or
+            CustomRoles.Taskinator or
             CustomRoles.NWitch or
             CustomRoles.God or
             CustomRoles.Romantic or
@@ -707,6 +711,7 @@ static class CustomRolesHelper
             CustomRoles.Wraith or
             CustomRoles.SoulCollector or
             CustomRoles.Vulture or
+            CustomRoles.Taskinator or
             CustomRoles.Convict or
             CustomRoles.Necromancer or
             CustomRoles.Parasite or
@@ -853,6 +858,7 @@ static class CustomRolesHelper
             CustomRoles.Medusa or
             CustomRoles.Juggernaut or
             CustomRoles.Vulture or
+            CustomRoles.Taskinator or
             CustomRoles.Jinx or
             CustomRoles.Lawyer or
             CustomRoles.Arsonist or
@@ -1249,7 +1255,9 @@ static class CustomRolesHelper
 
             case CustomRoles.Unlucky:
                 if (pc.Is(CustomRoles.Luckey)
-                    || pc.Is(CustomRoles.Lucky))
+                    || pc.Is(CustomRoles.Lucky)
+                    || pc.Is(CustomRoles.Mario)
+                    || pc.Is(CustomRoles.Taskinator))
                     return false;
                 if ((pc.GetCustomRole().IsCrewmate() && !Options.CrewCanBeUnlucky.GetBool()) || (pc.GetCustomRole().IsNeutral() && !Options.NeutralCanBeUnlucky.GetBool()) || (pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeUnlucky.GetBool()))
                     return false;
