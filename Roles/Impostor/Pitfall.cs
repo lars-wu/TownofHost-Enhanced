@@ -19,7 +19,6 @@ namespace TOHE.Roles.Impostor
         private static List<byte> ReducedVisionPlayers = new();
 
         private static OptionItem ShapeshiftCooldown;
-        private static OptionItem ShapeshiftDuration;
         public static OptionItem MaxTrapCount;
         public static OptionItem TrapMaxPlayerCount;
         public static OptionItem TrapDuration;
@@ -56,7 +55,7 @@ namespace TOHE.Roles.Impostor
         public static void ApplyGameOptions()
         {
             AURoleOptions.ShapeshifterCooldown = ShapeshiftCooldown.GetFloat();
-            AURoleOptions.ShapeshifterDuration = ShapeshiftDuration.GetFloat();
+            AURoleOptions.ShapeshifterDuration = 1f;
         }
 
         public static void Init()
