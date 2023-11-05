@@ -27,6 +27,7 @@ namespace TOHE.Roles.Impostor
         private static OptionItem TrapFreezeTime;
         private static OptionItem TrapCauseVision;
         private static OptionItem TrapCauseVisionTime;
+        public static OptionItem ShowShapeshiftAnimation;
 
         private static float DefaultSpeed = new();
 
@@ -49,8 +50,8 @@ namespace TOHE.Roles.Impostor
                 .SetValueFormat(OptionFormat.Multiplier);
             TrapCauseVisionTime = FloatOptionItem.Create(Id + 17, "PitfallTrapCauseVisionTime", new(0f, 45f, 1f), 15f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Pitfall])
                 .SetValueFormat(OptionFormat.Seconds);
-            ShapeshiftDuration = FloatOptionItem.Create(Id + 18, "ShapeshiftDuration", new(1f, 999f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Pitfall])
-                    .SetValueFormat(OptionFormat.Seconds);
+            ShowShapeshiftAnimation = BooleanOptionItem.Create(Id + 18, "ShowShapeshiftAnimation", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Pitfall]);
+
         }
         public static void ApplyGameOptions()
         {
