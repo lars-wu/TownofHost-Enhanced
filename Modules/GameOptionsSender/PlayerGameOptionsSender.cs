@@ -146,7 +146,6 @@ public class PlayerGameOptionsSender : GameOptionsSender
             case CustomRoles.Jailer:
             case CustomRoles.SwordsMan:
             case CustomRoles.Arsonist:
-       //     case CustomRoles.Minimalism:
             case CustomRoles.Innocent:
             case CustomRoles.Revolutionist:
             case CustomRoles.Medic:
@@ -177,6 +176,7 @@ public class PlayerGameOptionsSender : GameOptionsSender
                 opt.SetVision(Virus.ImpostorVision.GetBool());
                 break;
             case CustomRoles.Zombie:
+            case CustomRoles.Minimalism:
                 opt.SetFloat(FloatOptionNames.ImpostorLightMod, 0.2f);
                 break;
             case CustomRoles.Doctor:
