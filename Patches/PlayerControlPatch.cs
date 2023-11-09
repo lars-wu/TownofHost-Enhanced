@@ -2607,6 +2607,12 @@ class FixedUpdatePatch
                 if (Agitater.IsEnable && Agitater.CurrentBombedPlayer == player.PlayerId)
                     Agitater.OnFixedUpdate(player);
 
+                //OverKiller LateKill
+                if (OverKiller.MurderTargetLateTask.ContainsKey(player.PlayerId))
+                {
+                    OverKiller.OnFixedUpdate(player);
+                }
+
                 Sick.OnFixedUpdate(player);
 
                 switch (playerRole)
@@ -2873,6 +2879,9 @@ class FixedUpdatePatch
                     if (Pitfall.IsEnable)
                         Pitfall.OnFixedUpdate(player);
 
+                    if (Alchemist.BloodlustList.ContainsKey(player.PlayerId))
+                        Alchemist.OnFixedUpdate(player);
+
                     switch (playerRole)
                     {
                         case CustomRoles.Swooper:
@@ -2887,9 +2896,9 @@ class FixedUpdatePatch
                             Chameleon.OnFixedUpdate(player);
                             break;
 
-                        case CustomRoles.Alchemist:
-                            Alchemist.OnFixedUpdate(player);
-                            break;
+                        //case CustomRoles.Alchemist:
+                        //    Alchemist.OnFixedUpdate(player);
+                        //    break;
 
                         case CustomRoles.BallLightning:
                             BallLightning.OnFixedUpdate();

@@ -89,7 +89,7 @@ public static class Utils
             player.MyPhysics.RpcBootFromVent(0);
         }
 
-        // Modded
+        // Host side
         if (AmongUsClient.Instance.AmHost)
         {
             var playerlastSequenceId = (int)player.NetTransform.lastSequenceId;
@@ -99,7 +99,7 @@ public static class Utils
             Logger.Info($" {(ushort)playerlastSequenceId}", "Teleport - Player NetTransform lastSequenceId + 10 - SnapTo");
         }
 
-        // Vanilla
+        // For Client side
         MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(player.NetTransform.NetId, (byte)RpcCalls.SnapTo, SendOption.Reliable);
         NetHelpers.WriteVector2(location, messageWriter);
         messageWriter.Write(player.NetTransform.lastSequenceId + 100U);
@@ -1993,7 +1993,7 @@ public static class Utils
             var seerRole = seer.GetCustomRole();
 
             // Hide player names in during Mushroom Mixup if seer is alive and desync impostor
-            if (MushroomMixupIsActive && seer.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && Main.ResetCamPlayerList.Contains(seer.PlayerId))
+            if (!CamouflageIsForMeeting && MushroomMixupIsActive && seer.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && Main.ResetCamPlayerList.Contains(seer.PlayerId))
             {
                 seer.RpcSetNamePrivate("<size=0%>", true, force: NoCache);
             }
@@ -2238,7 +2238,6 @@ public static class Utils
 
             // Start run loop for target only if condition is "true"
             if (seer.Data.IsDead || !seer.IsAlive()
-                || CamouflageIsForMeeting
                 || MushroomMixupIsActive
                 || NoCache
                 || ForceLoop)
@@ -2250,7 +2249,7 @@ public static class Utils
                     logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START");
 
                     // Hide player names in during Mushroom Mixup if seer is alive and desync impostor
-                    if (MushroomMixupIsActive && target.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && Main.ResetCamPlayerList.Contains(seer.PlayerId))
+                    if (!CamouflageIsForMeeting && MushroomMixupIsActive && target.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && Main.ResetCamPlayerList.Contains(seer.PlayerId))
                     {
                         seer.RpcSetNamePrivate("<size=0%>", true, force: NoCache);
                     }
@@ -2624,6 +2623,7 @@ public static class Utils
         Main.ShamanTarget = byte.MaxValue;
         Main.ShamanTargetChoosen = false;
         Main.BurstBodies.Clear();
+        OverKiller.MurderTargetLateTask = new();
 
 
         if (Options.AirshipVariableElectrical.GetBool())
@@ -2638,6 +2638,13 @@ public static class Utils
             case CustomRoles.Terrorist:
                 Logger.Info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
                 CheckTerroristWin(target.Data);
+                break;
+            case CustomRoles.Executioner:
+                if (Executioner.Target.ContainsKey(target.PlayerId))
+                {
+                    Executioner.Target.Remove(target.PlayerId);
+                    Executioner.SendRPC(target.PlayerId);
+                }
                 break;
             case CustomRoles.Lawyer:
                 if (Lawyer.Target.ContainsKey(target.PlayerId))
@@ -2691,9 +2698,14 @@ public static class Utils
                     }
                 }
                 break;    
-            } 
+            }
+
+        if (Executioner.Target.ContainsValue(target.PlayerId))
+            Executioner.ChangeRoleByTarget(target);
+
         if (Romantic.BetPlayer.ContainsValue(target.PlayerId))
             Romantic.ChangeRole(target.PlayerId);
+
         if (Lawyer.Target.ContainsValue(target.PlayerId))
             Lawyer.ChangeRoleByTarget(target);
 
