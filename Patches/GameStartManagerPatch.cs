@@ -74,6 +74,9 @@ public class GameStartManagerPatch
 
             if (GameStates.IsNormalGame)
             {
+                Main.NormalOptions.ConfirmImpostor = false;
+                Main.NormalOptions.SetBool(BoolOptionNames.ConfirmImpostor, false);
+
                 if (Main.NormalOptions.KillCooldown == 0f)
                     Main.NormalOptions.KillCooldown = Main.LastKillCooldown.Value;
 
@@ -81,7 +84,7 @@ public class GameStartManagerPatch
                 if (AURoleOptions.ShapeshifterCooldown == 0f)
                     AURoleOptions.ShapeshifterCooldown = Main.LastShapeshifterCooldown.Value;
 
-                AURoleOptions.GuardianAngelCooldown = Spiritcaller.SpiritAbilityCooldown.GetFloat();
+                AURoleOptions.GuardianAngelCooldown = 35f; // Temporary until I make a setting of sorts.
             }
         }
     }
@@ -340,7 +343,7 @@ public class GameStartRandomMap
 
         if (randomMaps.Count > 0)
         {
-            var mapsId = randomMaps[0];
+            var mapsId = randomMaps[rand.Next(randomMaps.Count)];
 
             Logger.Info($"{mapsId}", "Chance Select MapId");
             return mapsId;

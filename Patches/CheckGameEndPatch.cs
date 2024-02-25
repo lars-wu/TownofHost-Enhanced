@@ -10,6 +10,7 @@ using TOHE.Roles.AddOns.Crewmate;
 using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using static TOHE.Translator;
+using TOHE.Roles.AddOns.Common;
 
 namespace TOHE;
 
@@ -254,17 +255,6 @@ class GameEndCheckerForNormal
                     }
                 }
 
-                //quizmaster win i guess
-                /*else if (CustomRoles.Quizmaster.RoleExist())
-                {
-                    if (CustomWinnerHolder.WinnerTeam is CustomWinner.Crewmate)
-                    {
-                        reason = GameOverReason.ImpostorByKill;
-                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Quizmaster);
-                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Quizmaster);
-                    }
-                }*/
-
                 //追加胜利
                 foreach (var pc in Main.AllPlayerControls)
                 {
@@ -274,7 +264,6 @@ class GameEndCheckerForNormal
                         CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                         CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
                     }
-                    if (pc.Is(CustomRoles.SchrodingersCat)) SchrodingersCat.SchrodingerWinCondition(pc);
                     //pixie
                     if (pc.Is(CustomRoles.Pixie) && !CustomWinnerHolder.CheckForConvertedWinner(pc.PlayerId)) Pixie.PixieWinCondition(pc);
                     //Shaman
@@ -287,12 +276,6 @@ class GameEndCheckerForNormal
                     {
                         CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                         CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Taskinator);
-                    }
-                    //Witch
-                    if (pc.Is(CustomRoles.NWitch) && pc.IsAlive() && CustomWinnerHolder.WinnerTeam != CustomWinner.Crewmate && CustomWinnerHolder.WinnerTeam != CustomWinner.Lovers)
-                    {
-                        CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                        CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Witch);
                     }
                     if (pc.Is(CustomRoles.Pursuer) && pc.IsAlive() && CustomWinnerHolder.WinnerTeam != CustomWinner.Jester && CustomWinnerHolder.WinnerTeam != CustomWinner.Lovers && CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist && CustomWinnerHolder.WinnerTeam != CustomWinner.Executioner && CustomWinnerHolder.WinnerTeam != CustomWinner.Collector && CustomWinnerHolder.WinnerTeam != CustomWinner.Innocent && CustomWinnerHolder.WinnerTeam != CustomWinner.Youtuber)
                     {
@@ -346,17 +329,17 @@ class GameEndCheckerForNormal
                     }
                 }
 
-                //FFF
-                if (FFF.isWon)
+                // Hater
+                if (Hater.isWon)
                 {
-                    CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.FFF);
+                    CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Hater);
                     // You have a player id list, no need for another list; also use a for loop instead of LINQ
-                    //FFF.winnerFFFList.Do(x => CustomWinnerHolder.WinnerIds.Add(x));
-                    
-                    var FFFArray = FFF.playerIdList.ToArray();
-                    foreach (var FFF in FFFArray)
+                    //Hater.winnerHaterList.Do(x => CustomWinnerHolder.WinnerIds.Add(x));
+
+                    var HaterArray = Hater.playerIdList.ToArray();
+                    foreach (var Hater in HaterArray)
                     {
-                        CustomWinnerHolder.WinnerIds.Add(FFF);
+                        CustomWinnerHolder.WinnerIds.Add(Hater);
                     }
                 }
 
@@ -371,6 +354,7 @@ class GameEndCheckerForNormal
                         CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Totocalcio);
                     }
                 }
+
                 //Romantic win condition
                 foreach (var pc in Main.AllPlayerControls.Where(x => x.Is(CustomRoles.Romantic)).ToArray())
                 {
@@ -408,6 +392,7 @@ class GameEndCheckerForNormal
                         CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.VengefulRomantic);
                     }
                 }
+
                 //Lawyer win cond
                 foreach (var pc in Main.AllPlayerControls.Where(x => x.Is(CustomRoles.Lawyer)).ToArray())
                 {
@@ -459,6 +444,10 @@ class GameEndCheckerForNormal
                     }
                 }
             }
+
+            /*Keep Schrodinger cat win condition at last*/
+            Main.AllPlayerControls.Where(pc => pc.Is(CustomRoles.SchrodingersCat)).ToList().ForEach(pc => SchrodingersCat.SchrodingerWinCondition(pc));
+
             ShipStatus.Instance.enabled = false;
             StartEndGame(reason);
             predicate = null;
@@ -467,6 +456,9 @@ class GameEndCheckerForNormal
     }
     public static void StartEndGame(GameOverReason reason)
     {
+        var winner = CustomWinnerHolder.WinnerTeam;
+        SetEverythingUpPatch.LastWinsReason = winner is CustomWinner.Crewmate or CustomWinner.Impostor ? GetString($"GameOverReason.{reason}") : "";
+
         AmongUsClient.Instance.StartCoroutine(CoEndGame(AmongUsClient.Instance, reason).WrapToIl2Cpp());
     }
     private static IEnumerator CoEndGame(AmongUsClient self, GameOverReason reason)
@@ -503,7 +495,6 @@ class GameEndCheckerForNormal
                     pc.RpcSetRole(RoleTypes.CrewmateGhost);
                 }
             }
-            SetEverythingUpPatch.LastWinsReason = winner is CustomWinner.Crewmate or CustomWinner.Impostor ? GetString($"GameOverReason.{reason}") : "";
         }
 
         // Sync of CustomWinnerHolder info
@@ -558,20 +549,19 @@ class GameEndCheckerForNormal
 
             if (CustomRoles.Sunnyboy.RoleExist() && Main.AllAlivePlayerControls.Length > 1) return false;
             var neutralRoleCounts = new Dictionary<CountTypes, int>();
-            var apcList = Main.AllAlivePlayerControls.ToArray();
+            var allAlivePlayerList = Main.AllAlivePlayerControls.ToArray();
             int dual = 0, impCount = 0, crewCount = 0;
 
-            foreach (var pc in apcList)
+            foreach (var pc in allAlivePlayerList)
             {
                 if (pc == null) continue;
 
-                dual = pc.Is(CustomRoles.DualPersonality) ? 1 : 0;
+                dual = Schizophrenic.IsExistInGame(pc) ? 1 : 0;
                 var countType = Main.PlayerStates[pc.PlayerId].countTypes;
                 switch (countType)
                 {
                     case CountTypes.OutOfGame:
                     case CountTypes.None:
-                    case CountTypes.NWitch:
                         continue;
                     case CountTypes.Impostor:
                         impCount++;

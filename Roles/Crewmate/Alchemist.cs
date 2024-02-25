@@ -151,15 +151,15 @@ namespace TOHE.Roles.Crewmate
                 case 4: // Increased speed.;
                     int SpeedDuration = 10;
                     player.Notify(GetString("AlchemistHasSpeed"));
-                    player.MarkDirtySettings();
-                    var tmpSpeed = Main.AllPlayerSpeed[player.PlayerId];
+                    var tempSpeed = Main.AllPlayerSpeed[player.PlayerId];
                     Main.AllPlayerSpeed[player.PlayerId] = Speed.GetFloat();
+                    player.MarkDirtySettings();
                     _ = new LateTask(() =>
                     {
-                        Main.AllPlayerSpeed[player.PlayerId] = Main.AllPlayerSpeed[player.PlayerId] - Speed.GetFloat() + tmpSpeed;
-                        player.MarkDirtySettings();
+                        Main.AllPlayerSpeed[player.PlayerId] = Main.AllPlayerSpeed[player.PlayerId] - Speed.GetFloat() + tempSpeed;
                         player.Notify(GetString("AlchemistSpeedOut"));
-                    }, SpeedDuration);
+                        player.MarkDirtySettings();
+                    }, SpeedDuration, "Alchemist: Set Speed to default");
                     break;
                 case 5: // Quick fix next sabo
                     // Done when making the potion
@@ -329,7 +329,7 @@ namespace TOHE.Roles.Crewmate
                 ventedId.Remove(pc.PlayerId);
                 ventedId.Add(pc.PlayerId, ventId);
 
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, 34, SendOption.Reliable, pc.GetClientId());
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, pc.GetClientId());
                 writer.WritePacked(ventId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
 
