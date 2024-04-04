@@ -494,8 +494,10 @@ public class StringOptionIncreasePatch
             switch (GameOptionsManager.Instance.CurrentGameOptions.GameMode)
             {
                 // To prevent the Host from selecting CustomGameMode.HidenSeekTOHE
+                case GameModes.NormalFools when option.CurrentValue == 0:
                 case GameModes.Normal when option.CurrentValue == gameModeCount - 1:
                 // To prevent the Host from selecting CustomGameMode.Standard/FFA
+                case GameModes.SeekFools when option.CurrentValue == gameModeCount:
                 case GameModes.HideNSeek when option.CurrentValue == gameModeCount:
                     return false;
                 default:
@@ -504,6 +506,20 @@ public class StringOptionIncreasePatch
         }
 
         option.SetValue(option.CurrentValue + (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 5 : 1));
+
+        if (option.Name == "Preset")
+        {
+            if (GameStates.IsHideNSeek)
+            {
+                // Set Hide & Seek game mode
+                Options.GameMode.SetValue(2);
+            }
+            else if (Options.CurrentGameMode == CustomGameMode.HidenSeekTOHE)
+            {
+                // Set standart game mode
+                Options.GameMode.SetValue(0);
+            }
+        }
         return false;
     }
 }
@@ -521,8 +537,10 @@ public class StringOptionDecreasePatch
             switch (GameOptionsManager.Instance.CurrentGameOptions.GameMode)
             {
                 // To prevent the Host from selecting CustomGameMode.HidenSeekTOHE
+                case GameModes.NormalFools when option.CurrentValue == 0:
                 case GameModes.Normal when option.CurrentValue == 0:
                 // To prevent the Host from selecting CustomGameMode.Standard/FFA
+                case GameModes.SeekFools when option.CurrentValue == Options.gameModes.Length - 1:
                 case GameModes.HideNSeek when option.CurrentValue == Options.gameModes.Length - 1:
                     return false;
                 default:
@@ -531,6 +549,20 @@ public class StringOptionDecreasePatch
         }
 
         option.SetValue(option.CurrentValue - (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 5 : 1));
+
+        if (option.Name == "Preset")
+        {
+            if (GameStates.IsHideNSeek)
+            {
+                // Set Hide & Seek game mode
+                Options.GameMode.SetValue(2);
+            }
+            else if (Options.CurrentGameMode == CustomGameMode.HidenSeekTOHE)
+            {
+                // Set standart game mode
+                Options.GameMode.SetValue(0);
+            }
+        }
         return false;
     }
 }

@@ -143,8 +143,6 @@ internal class ChangeRoleSettings
 
             Main.introDestroyed = false;
 
-            RandomSpawn.CustomNetworkTransformPatch.NumOfTP = [];
-
             Main.LastNotifyNames = [];
 
             Main.currentDousingTarget = byte.MaxValue;
@@ -158,7 +156,7 @@ internal class ChangeRoleSettings
             //Main.AllPlayerNames = [];
             RPC.SyncAllPlayerNames();
 
-            GhostRoleAssign.Init();
+            //GhostRoleAssign.Init();
 
             Camouflage.Init();
 
@@ -197,7 +195,6 @@ internal class ChangeRoleSettings
                 ReportDeadBodyPatch.WaitReport[pc.PlayerId] = [];
                 pc.cosmetics.nameText.text = pc.name;
 
-                RandomSpawn.CustomNetworkTransformPatch.NumOfTP.Add(pc.PlayerId, 0);
                 var outfit = pc.Data.DefaultOutfit;
                 Camouflage.PlayerSkins[pc.PlayerId] = new GameData.PlayerOutfit().Set(outfit.PlayerName, outfit.ColorId, outfit.HatId, outfit.SkinId, outfit.VisorId, outfit.PetId, outfit.NamePlateId);
                 Main.clientIdList.Add(pc.GetClientId());
@@ -572,7 +569,6 @@ internal class SelectRolesPatch
             foreach (var kv in RoleAssign.RoleResult)
             {
                 if (kv.Value.IsDesyncRole()) continue;
-                if (kv.Value.IsGhostRole()) Logger.Warn("Warning! Someone has unintentionally been assigned ghost role, debug or up?", "RoleGhost");
                 AssignCustomRole(kv.Value, kv.Key);
             }
 
@@ -590,7 +586,7 @@ internal class SelectRolesPatch
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, subRole);
             }
             
-            GhostRoleAssign.Add();
+            //GhostRoleAssign.Add();
 
             foreach (var pc in Main.AllPlayerControls)
             {
@@ -1145,7 +1141,7 @@ internal class SelectRolesPatch
             //HudManager.Instance.Chat.SetVisible(true);
             
             List<PlayerControl> AllPlayers = [];
-            CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
+            //CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
             
             foreach (var pc in Main.AllPlayerControls)
                 pc.ResetKillCooldown();
@@ -1196,15 +1192,6 @@ internal class SelectRolesPatch
             Utils.CountAlivePlayers(true);
             Utils.SyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
-
-            // fix GM spawn in Airship
-            if (Main.EnableGM.Value && GameStates.AirshipIsActive)
-            {
-                _ = new LateTask(() => 
-                {
-                    PlayerControl.LocalPlayer.RpcTeleport(new(15.5f, 0.0f));
-                }, 15f, "GM Auto-TP Failsafe"); // TP to Main Hall
-            }
 
             Logger.Msg("Ended", "AssignRoles");
         }

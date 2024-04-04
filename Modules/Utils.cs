@@ -24,6 +24,7 @@ using TOHE.Roles.Neutral;
 using UnityEngine;
 using static TOHE.Translator;
 using TOHE.Roles.AddOns.Common;
+using System.Threading.Channels;
 
 namespace TOHE;
 
@@ -77,97 +78,6 @@ public static class Utils
                 }, 8f, "Anti-Black Exit Game 4");
             }
         }
-    }
-    public static void RpcTeleportAllPlayers(Vector2 location)
-    {
-        foreach (var pc in Main.AllAlivePlayerControls)
-        {
-            pc.RpcTeleport(location);
-        }
-    }
-
-    public static void RpcTeleport(this PlayerControl player, Vector2 location, bool isRandomSpawn = false, bool sendInfoInLogs = true)
-    {
-        if (sendInfoInLogs)
-        {
-            Logger.Info($" {player.GetNameWithRole().RemoveHtmlTags()} => {location}", "RpcTeleport");
-            Logger.Info($" Player Id: {player.PlayerId}", "RpcTeleport");
-        }
-
-        // Don't check player status during random spawn
-        if (!isRandomSpawn)
-        {
-            var cancelTeleport = false;
-
-            if (player.inVent
-                || player.MyPhysics.Animations.IsPlayingEnterVentAnimation())
-            {
-                Logger.Info($"Target: ({player.GetNameWithRole().RemoveHtmlTags()}) in vent", "RpcTeleport");
-                cancelTeleport = true;
-            }
-
-            else if (player.onLadder
-                || player.MyPhysics.Animations.IsPlayingAnyLadderAnimation())
-            {
-                Logger.Warn($"Teleporting canceled - Target: ({player.GetNameWithRole().RemoveHtmlTags()}) is in on Ladder", "RpcTeleport");
-                cancelTeleport = true;
-            }
-
-            else if (player.inMovingPlat)
-            {
-                Logger.Warn($"Teleporting canceled - Target: ({player.GetNameWithRole().RemoveHtmlTags()}) use moving platform (Airship/Fungle)", "RpcTeleport");
-                cancelTeleport = true;
-            }
-
-            if (cancelTeleport)
-            {
-                player.Notify(ColorString(GetRoleColor(CustomRoles.Impostor), GetString("ErrorTeleport")));
-                return;
-            }
-        }
-
-        var playerNetTransform = player.NetTransform;
-        var numHost = (ushort)(playerNetTransform.lastSequenceId + 6);
-        var numLocalClient = (ushort)(playerNetTransform.lastSequenceId + 48);
-        var numGlobal = (ushort)(playerNetTransform.lastSequenceId + 100);
-
-        // Host side
-        if (AmongUsClient.Instance.AmHost)
-        {
-            playerNetTransform.SnapTo(location, numHost);
-        }
-
-        var sender = CustomRpcSender.Create("TeleportPlayer");
-        {
-            // Local Teleport For Client
-            if (PlayerControl.LocalPlayer.PlayerId != player.PlayerId)
-            {
-                sender.AutoStartRpc(playerNetTransform.NetId, (byte)RpcCalls.SnapTo, targetClientId: player.GetClientId());
-                {
-                    NetHelpers.WriteVector2(location, sender.stream);
-                    sender.Write(numLocalClient);
-                }
-                sender.EndRpc();
-            }
-
-            // Global Teleport
-            sender.AutoStartRpc(playerNetTransform.NetId, (byte)RpcCalls.SnapTo);
-            {
-                NetHelpers.WriteVector2(location, sender.stream);
-                sender.Write(numGlobal);
-            }
-            sender.EndRpc();
-        }
-        sender.SendMessage();
-    }
-    public static void RpcRandomVentTeleport(this PlayerControl player)
-    {
-        var vents = UnityEngine.Object.FindObjectsOfType<Vent>();
-        var rand = IRandom.Instance;
-        var vent = vents[rand.Next(0, vents.Count)];
-
-        Logger.Info($" {vent.transform.position}", "Rpc Vent Teleport Position");
-        player.RpcTeleport(new Vector2(vent.transform.position.x, vent.transform.position.y + 0.3636f));
     }
     public static ClientData GetClientById(int id)
     {
@@ -402,6 +312,13 @@ public static class Utils
             return string.Empty;
 
         string mode = GetString($"Chance{role.GetMode()}").RemoveHtmlTags();
+        if (role.Is(CustomRoles.Lovers)) mode = GetString($"Chance{Options.LoverSpawnChances.GetInt()}");
+        else if (role.IsAdditionRole() && Options.CustomAdtRoleSpawnRate.ContainsKey(role))
+        {
+            mode = GetString($"Chance{Options.CustomAdtRoleSpawnRate[role].GetFloat()}");
+            
+        }
+        
         return parentheses ? $"({mode})" : mode;
     }
     public static string GetDeathReason(PlayerState.DeathReason status)
@@ -1271,7 +1188,13 @@ public static class Utils
             string mode = GetString($"Chance{role.GetMode()}");
             if (role.IsEnable())
             {
-                var roleDisplay = $"\n{GetRoleName(role)}: {mode} x{role.GetCount()}";
+                if (role.Is(CustomRoles.Lovers)) mode = GetString($"Chance{Options.LoverSpawnChances.GetInt()}");
+                else if (role.IsAdditionRole() && Options.CustomAdtRoleSpawnRate.ContainsKey(role))
+                {
+                    mode = GetString($"Chance{Options.CustomAdtRoleSpawnRate[role].GetFloat()}");
+
+                }
+                var roleDisplay = $"{GetRoleName(role)}: {mode} x{role.GetCount()}";
                 if (role.IsAdditionRole()) addonsb.Add(roleDisplay);
                 else if (role.IsCrewmate()) crewsb.Add(roleDisplay);
                 else if (role.IsImpostor() || role.IsMadmate()) impsb.Add(roleDisplay);
@@ -1284,10 +1207,10 @@ public static class Utils
         neutralsb.Sort();
         addonsb.Sort();
         
-        SendMessage(string.Join("", impsb) + "\n.", PlayerId, ColorString(GetRoleColor(CustomRoles.Impostor), GetString("ImpostorRoles")));
-        SendMessage(string.Join("", crewsb) + "\n.", PlayerId, ColorString(GetRoleColor(CustomRoles.Crewmate), GetString("CrewmateRoles")));
-        SendMessage(string.Join("", neutralsb) + "\n.", PlayerId, GetString("NeutralRoles"));
-        SendMessage(string.Join("", addonsb) + "\n.", PlayerId, GetString("AddonRoles"));
+        SendMessage(string.Join("\n", impsb), PlayerId, ColorString(GetRoleColor(CustomRoles.Impostor), GetString("ImpostorRoles")));
+        SendMessage(string.Join("\n", crewsb), PlayerId, ColorString(GetRoleColor(CustomRoles.Crewmate), GetString("CrewmateRoles")));
+        SendMessage(string.Join("\n", neutralsb), PlayerId, GetString("NeutralRoles"));
+        SendMessage(string.Join("\n", addonsb), PlayerId, GetString("AddonRoles"));
     }
     public static void ShowChildrenSettings(OptionItem option, ref StringBuilder sb, int deep = 0, bool command = false)
     {
@@ -1358,8 +1281,9 @@ public static class Utils
                 break;
         }
         sb.Append("</size>");
-
-        SendMessage("\n", PlayerId, sb.ToString());
+        string lr = sb.ToString();
+        if (lr.Length > 1200) lr = lr.RemoveHtmlTags();
+        SendMessage("\n", PlayerId, lr);
     }
     public static void ShowKillLog(byte PlayerId = byte.MaxValue)
     {
@@ -1368,7 +1292,12 @@ public static class Utils
             SendMessage(GetString("CantUse.killlog"), PlayerId);
             return;
         }
-        if (EndGamePatch.KillLog != "") SendMessage(EndGamePatch.KillLog, PlayerId);
+        if (EndGamePatch.KillLog != "") 
+        {
+            string kl = EndGamePatch.KillLog;
+            if (Options.OldKillLog.GetBool() || kl.Length > 1200) kl = kl.RemoveHtmlTags();
+            SendMessage(kl, PlayerId); 
+        }
     }
     public static void ShowLastResult(byte PlayerId = byte.MaxValue)
     {

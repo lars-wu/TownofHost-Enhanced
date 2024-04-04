@@ -196,6 +196,7 @@ public static class Options
     public static OptionItem AutoDisplayKillLog;
     public static OptionItem AutoDisplayLastRoles;
     public static OptionItem AutoDisplayLastResult;
+    public static OptionItem OldKillLog;
 
     public static OptionItem SuffixMode;
     public static OptionItem HideHostText;
@@ -245,11 +246,6 @@ public static class Options
     public static OptionItem AirshipChance;
     public static OptionItem FungleChance;
     public static OptionItem UseMoreRandomMapSelection;
-
-    public static OptionItem RandomSpawn;
-    public static OptionItem SpawnRandomLocation;
-    public static OptionItem AirshipAdditionalSpawn;
-    public static OptionItem SpawnRandomVents;
 
     public static OptionItem MapModification;
     public static OptionItem AirshipVariableElectrical;
@@ -1484,13 +1480,13 @@ public static class Options
         /*
          * Impostor Ghost Roles
         */
-        TextOptionItem.Create(10000111, "RoleType.ImpGhost", TabGroup.ImpostorRoles)
-            .SetGameMode(CustomGameMode.Standard)
-            .SetColor(new Color32(255, 25, 25, byte.MaxValue));
+        //TextOptionItem.Create(10000111, "RoleType.ImpGhost", TabGroup.ImpostorRoles)
+        //    .SetGameMode(CustomGameMode.Standard)
+        //    .SetColor(new Color32(255, 25, 25, byte.MaxValue));
 
-        Minion.SetupCustomOption();
+        //Minion.SetupCustomOption();
 
-        Nemesis.SetupCustomOption();
+        //Nemesis.SetupCustomOption();
 
         #endregion
 
@@ -1971,13 +1967,13 @@ public static class Options
         /*
          * Crewmate Ghost Roles
         */
-        TextOptionItem.Create(10000101, "RoleType.CrewGhost", TabGroup.CrewmateRoles)
-            .SetGameMode(CustomGameMode.Standard)
-            .SetColor(new Color32(140, 255, 255, byte.MaxValue));
+        //TextOptionItem.Create(10000101, "RoleType.CrewGhost", TabGroup.CrewmateRoles)
+        //    .SetGameMode(CustomGameMode.Standard)
+        //    .SetColor(new Color32(140, 255, 255, byte.MaxValue));
 
-        Warden.SetupCustomOptions();
+        //Warden.SetupCustomOptions();
 
-        Retributionist.SetupCustomOptions();
+        //Retributionist.SetupCustomOptions();
 
         #endregion
 
@@ -2253,6 +2249,8 @@ public static class Options
         Nimble.SetupCustomOptions();
 
         Overclocked.SetupCustomOptions();
+
+        Seer.SetupCustomOptions();
 
         Silent.SetupCustomOptions();
 
@@ -2539,10 +2537,13 @@ public static class Options
         AutoDisplayKillLog = BooleanOptionItem.Create(60270, "AutoDisplayKillLog", true, TabGroup.SystemSettings, false)
             .SetHeader(true)
             .HideInHnS();
+        OldKillLog = BooleanOptionItem.Create(60291, "RevertOldKillLog", false, TabGroup.SystemSettings, false)
+            .HideInHnS();
         AutoDisplayLastRoles = BooleanOptionItem.Create(60280, "AutoDisplayLastRoles", true, TabGroup.SystemSettings, false)
             .HideInHnS();
         AutoDisplayLastResult = BooleanOptionItem.Create(60290, "AutoDisplayLastResult", true, TabGroup.SystemSettings, false)
             .HideInHnS();
+        
         SuffixMode = StringOptionItem.Create(60300, "SuffixMode", suffixModes, 0, TabGroup.SystemSettings, true)
             .SetHeader(true);
         HideHostText = BooleanOptionItem.Create(60311, "HideHostText", false, TabGroup.SystemSettings, false);
@@ -2660,17 +2661,10 @@ public static class Options
             .SetHidden(true)
             .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(193, 255, 209, byte.MaxValue));
+
         // Random Spawn
-        RandomSpawn = BooleanOptionItem.Create(60470, "RandomSpawn", false, TabGroup.GameSettings, false)
-            .HideInFFA()
-            //.SetGameMode(CustomGameMode.HidenSeekTOHE) Temporarily removed as additional changes are needed
-            .SetColor(new Color32(19, 188, 233, byte.MaxValue));
-        SpawnRandomLocation = BooleanOptionItem.Create(60471, "SpawnRandomLocation", true, TabGroup.GameSettings, false)
-            .SetParent(RandomSpawn);
-        AirshipAdditionalSpawn = BooleanOptionItem.Create(60472, "AirshipAdditionalSpawn", true, TabGroup.GameSettings, false)
-            .SetParent(SpawnRandomLocation);
-        SpawnRandomVents = BooleanOptionItem.Create(60475, "SpawnRandomVents", false, TabGroup.GameSettings, false)
-            .SetParent(RandomSpawn);
+        RandomSpawn.SetupCustomOption();
+        
         MapModification = BooleanOptionItem.Create(60480, "MapModification", false, TabGroup.GameSettings, false)
             .SetColor(new Color32(19, 188, 233, byte.MaxValue));
         // Airship Variable Electrical
