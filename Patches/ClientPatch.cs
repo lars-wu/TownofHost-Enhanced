@@ -98,7 +98,7 @@ internal class RunLoginPatch
         if (!EOSManager.Instance.loginFlowFinished) return;
 
         var friendcode = EOSManager.Instance.friendCode;
-        //dbConnect.Init();
+        //Main.Instance.StartCoroutine(dbConnect.Init());
         Main.hasAccess = true;
         if (friendcode == null || friendcode == "")
         {
